@@ -29,4 +29,5 @@ import Projection.Types exposing (Eye, Point, Room, Rotation, Shape, Vector)
 -}
 project : Point -> Eye -> ( Point, Eye )
 project point eye =
+    -- TODO
     ( point, eye )
