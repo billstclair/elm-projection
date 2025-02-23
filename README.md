@@ -1,4 +1,4 @@
-[billstclair/projection](https://package.elm-lang.org/packages/billstclair/projection/latest) is a library to project points to fewer dimensions.
+[billstclair/projection](https://package.elm-lang.org/packages/billstclair/elm-projection/latest) is a library to project points to fewer dimensions.
 
 It has a few basic types:
 

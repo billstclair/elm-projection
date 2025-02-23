@@ -17,7 +17,6 @@ module Projection.Types exposing
     )
 
 {-| Types for Projection.elm
-
 This module allows you to project a point into one fewer dimensions,
 given the eye looking at it.
 
@@ -75,7 +74,9 @@ type alias Rotation =
 {-| Two points, from & to
 -}
 type alias Vector =
-    ( Point, Point )
+    { from : Point
+    , to : Point
+    }
 
 
 {-| The observer for the projection.
