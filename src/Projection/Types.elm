@@ -13,7 +13,7 @@
 module Projection.Types exposing
     ( Number, Point, Vector, Rotation
     , Shape, Room
-    , Eye
+    , Eye, Seer
     )
 
 {-| Types for Projection.elm
@@ -31,9 +31,9 @@ given the eye looking at it.
 @docs Shape, Room
 
 
-# The eye
+# Seeing
 
-@docs Eye
+@docs Eye, Seer
 
 -}
 
@@ -85,4 +85,12 @@ type alias Eye =
     { position : Point
     , direction : Vector
     , rotation : Rotation
+    }
+
+
+{-| A `Shape` that can see.
+-}
+type alias Seer =
+    { shape : Shape
+    , eye : Eye
     }

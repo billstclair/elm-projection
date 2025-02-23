@@ -12,9 +12,9 @@
 
 module Projection.EncodeDecode exposing
     ( encodeNumber, encodePoint, encodeVector, encodeRotation
-    , encodeShape, encodeRoom, encodeEye
+    , encodeShape, encodeRoom, encodeEye, encodeSeer
     , numberDecoder, pointDecoder, vectorDecoder, rotationDecoder
-    , shapeDecoder, roomDecoder, eyeDecoder
+    , shapeDecoder, roomDecoder, eyeDecoder, seerDecoder
     )
 
 {-| Json encoders and decoders for `Projection.Types`
@@ -23,20 +23,20 @@ module Projection.EncodeDecode exposing
 # Encoders
 
 @docs encodeNumber, encodePoint, encodeVector, encodeRotation
-@docs encodeShape, encodeRoom, encodeEye
+@docs encodeShape, encodeRoom, encodeEye, encodeSeer
 
 
 # Decoders
 
 @docs numberDecoder, pointDecoder, vectorDecoder, rotationDecoder
-@docs shapeDecoder, roomDecoder, eyeDecoder
+@docs shapeDecoder, roomDecoder, eyeDecoder, seerDecoder
 
 -}
 
 import Json.Decode as JD exposing (Decoder)
 import Json.Decode.Pipeline as DP exposing (custom, hardcoded, optional, required)
 import Json.Encode as JE exposing (Value)
-import Projection.Types exposing (Eye, Number, Point, Room, Rotation, Shape, Vector)
+import Projection.Types exposing (Eye, Number, Point, Room, Rotation, Seer, Shape, Vector)
 
 
 {-| Encode a `Number`
@@ -147,3 +147,22 @@ eyeDecoder =
         |> required "position" pointDecoder
         |> required "direction" vectorDecoder
         |> required "rotation" rotationDecoder
+
+
+{-| Encode a `Seer`
+-}
+encodeSeer : Seer -> Value
+encodeSeer seer =
+    JE.object
+        [ ( "shape", encodeShape seer.shape )
+        , ( "eye", encodeEye seer.eye )
+        ]
+
+
+{-| Decoder for `Seer`s.
+-}
+seerDecoder : Decoder Seer
+seerDecoder =
+    JD.succeed Seer
+        |> required "shape" shapeDecoder
+        |> required "eye" eyeDecoder
