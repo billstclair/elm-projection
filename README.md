@@ -2,15 +2,25 @@
 
 It has a few basic types:
 
-point = a point, an ordered list of numbers. The list length is the number of dimensions. [x, y, z, d4, d5, ...]
+`Number` = a floating point number.
 
-shape = an ordered list of points. The shape is drawn by drawing a line from each point in the list to the next. [p1, p2, p3, ...]
+`Point` = a point, an ordered list of numbers. The list length is the number of dimensions. [x, y, z, d4, d5, ...]
 
-room = a list of shapes [s1, s2, s3, ...]
+`Vector` = two points (p1, p2)
 
-vector = two points (p1, p2)
+`Rotation` = a number, in radians.
 
-eye (the viewpoint) = {position (point), direction (vector), rotation (number)}
+`Shape` = an ordered list of points. [p1, p2, p3, ...]
+To draw a `Shape`, draw a line from each point in the list to the next.
 
-projection eye point = (newEye, newPoint)
+`Room` = a list of shapes [s1, s2, s3, ...]
 
+`Eye` (the viewpoint) = {position : Point), direction : Vector, rotation : Rotation}
+
+project eye point = (newEye, newPoint)
+
+The types are defined by `Projection.Types`
+
+JSON encoders and decoders are in `Project.EncodeDecode`
+
+Projection functions are in `Projection`.
