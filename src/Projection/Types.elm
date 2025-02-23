@@ -50,6 +50,20 @@ type alias Point =
     List Number
 
 
+{-| A number, in radians.
+-}
+type alias Rotation =
+    Number
+
+
+{-| Two points, from & to
+-}
+type alias Vector =
+    { from : Point
+    , to : Point
+    }
+
+
 {-| An ordered list of `Point`s.
 
 To draw a shape, draw a line from each point to the next one.
@@ -65,20 +79,6 @@ type alias Room =
     List Shape
 
 
-{-| A number, in radians.
--}
-type alias Rotation =
-    Number
-
-
-{-| Two points, from & to
--}
-type alias Vector =
-    { from : Point
-    , to : Point
-    }
-
-
 {-| The observer for the projection.
 -}
 type alias Eye =
@@ -91,6 +91,6 @@ type alias Eye =
 {-| A `Shape` that can see.
 -}
 type alias Seer =
-    { shape : Shape
+    { room : Room
     , eye : Eye
     }

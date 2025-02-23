@@ -17,10 +17,12 @@ To draw a `Shape`, draw a line from each point in the list to the next.
 
 `Eye` (the viewpoint) = {position : Point), direction : Vector, rotation : Rotation}
 
-project eye point = (newEye, newPoint)
+project eye point -> (newEye, newPoint)
 
 The types are defined by `Projection.Types`
 
 JSON encoders and decoders are in `Project.EncodeDecode`
+
+Utility functions are in `Projection.Util`.
 
 Projection functions are in `Projection`.
