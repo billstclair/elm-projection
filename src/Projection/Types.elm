@@ -91,6 +91,6 @@ type alias Eye =
 {-| A `Shape` that can see.
 -}
 type alias Seer =
-    { room : Room
+    { body : Room
     , eye : Eye
     }

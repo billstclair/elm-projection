@@ -101,7 +101,7 @@ eyeDimensions eye =
 -}
 seerDimensions : Seer -> Int
 seerDimensions seer =
-    seer.room |> roomDimensions
+    seer.body |> roomDimensions
 
 
 {-| A `Vector` is valid if both of its ends have the same number of dimension
@@ -151,6 +151,6 @@ isEyeValid eye =
 -}
 isSeerValid : Seer -> Bool
 isSeerValid seer =
-    isRoomValid seer.room
+    isRoomValid seer.body
         && isEyeValid seer.eye
-        && (roomDimensions seer.room == eyeDimensions seer.eye)
+        && (roomDimensions seer.body == eyeDimensions seer.eye)
