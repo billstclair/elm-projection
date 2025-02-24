@@ -4,8 +4,15 @@ A derivation of the projection math used in `Projection.elm`.
 
 ## What is projection?
 
-## GitHub-flavored Markdown (GFM) Note
+The eye defines a plane, parallel to the line between the eye and the
+center of the plane.
 
+A plane is all points with one coordinate the same. I'm dropping the
+final dimension.
+
+    $p\ =\ (x,\ y, z,\ C)$
+
+## GitHub-flavored Markdown (GFM) Note
 [GFM](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax) uses [MathJax](https://docs.mathjax.org/en/latest/)
 
 In GFM, \<br> makes a newline as does ending a line with \\.
