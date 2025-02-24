@@ -104,7 +104,7 @@ seerDimensions seer =
     seer.body |> roomDimensions
 
 
-{-| A `Vector` is valid if both of its ends have the same number of dimension
+{-| A `Vector` is valid if both of its ends have the same number of dimensions.
 -}
 isVectorValid : Vector -> Bool
 isVectorValid vector =
@@ -147,7 +147,8 @@ isEyeValid eye =
            )
 
 
-{-| A `Seer` is valid if
+{-| A `Seer` is valid if both its `eye` and its `body` are valid
+and have the same number of dimensions.
 -}
 isSeerValid : Seer -> Bool
 isSeerValid seer =
