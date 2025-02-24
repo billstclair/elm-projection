@@ -19,7 +19,7 @@ frac{numerator}{denominator}: $frac{1}{2}<br>
 I've tried lost of Stack Exchange ideas for newline, but none work.
 
 $Found\ in\ docs: e^{-\frac{t}{RC}}$<br>
-$Quadratic\ equation:\ ax^2\ +\ bx\ +\ c\ =\ 0\\$<br>
+$Quadratic\ equation:\ ax^2\ +\ bx\ +\ c\ =\ 0$<br>
 $Right\ triangle\ sides\ (z\ is\ hypotenuse):\ x^2\ +\ y^2\ =\ z^2$
 
 From GitHub's (Math)[https://github.com/billstclair/elm-projection/edit/main/math.md] page:
