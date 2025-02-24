@@ -8,7 +8,7 @@ A derivation of the projection math used in `Projection.elm`.
 
 [GFM](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax) uses [MathJax](https://docs.mathjax.org/en/latest/)
 
-\<br> makes a newline.
+In GFM, \<br> makes a newline as does ending a line with \\.
 
 $ surrounds inline LaTex.<br>
 $$ surrounds blocks of LaTex, but I dont know how to make a newline.<br>
