@@ -100,8 +100,8 @@ eyeDimension =
 {-| Count the dimensions of a `Seer`.
 -}
 seerDimension : Seer -> Int
-seerDimension seer =
-    seer.body |> roomDimension
+seerDimension =
+    .body >> roomDimension
 
 
 {-| A `Vector` is valid if both of its ends have the same number of dimension.
@@ -118,7 +118,7 @@ isShapeValid shape =
     List.map pointDimension shape
         |> LE.unique
         |> List.length
-        |> (>) 2
+        |> (<) 2
 
 
 {-| A `Room` is valid if all of its `Shape`s are valid and have the same dimension.
