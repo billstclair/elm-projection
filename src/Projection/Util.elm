@@ -136,15 +136,16 @@ isRoomValid room =
            )
 
 
-{-| An `Eye` is valid if its direction is valid and its position
-has one more dimension than its direction.
+{-| An `Eye` is valid if `eye.direction` is valid and
+`eye.direction.from == eye.position`,
+And the `eye.direction` is not of zero length.
 -}
 isEyeValid : Eye -> Bool
 isEyeValid eye =
     isVectorValid eye.direction
-        && (pointDimensions eye.position
-                == (vectorDimensions eye.direction + 1)
-           )
+        && (eye.position == eye.direction.from)
+        -- This should probably demand some minimum distance
+        && (eye.direction.from /= eye.direction.to)
 
 
 {-| A `Seer` is valid if both its `eye` and its `body` are valid

@@ -29,3 +29,5 @@ JSON encoders and decoders are in `Project.EncodeDecode`
 Utility functions are in `Projection.Util`.
 
 Projection functions are in `Projection`.
+
+See [math.md](https://github.com/billstclair/elm-projection/blob/main/math.md) for details of the math involved.

@@ -83,6 +83,8 @@ type alias Room =
 -}
 type alias Eye =
     { position : Point
+
+    -- `.from` is `position`,
     , direction : Vector
     , rotation : Rotation
     }

@@ -7,31 +7,47 @@ A derivation of the projection math used in `Projection.elm`.
 The eye defines a plane, parallel to the line between the eye and the
 center of the plane.
 
-A plane is all points with one coordinate the same. I'm dropping the
-final dimension.
+A line is defined by two points, $p_1$ and $p_2$.
 
-$$p\ =\ (x,\ y,\ z,\ C)$$
+$x$ is on the line if, for some constant, $C$:
 
-But rotated. [My brain now hurts, so I'll come back to this]
+$$x = p_2 + ((p_1-p_2) * C)$$
+
+A plane is defined as a point and a line perpendicular to the plane.
+
+Let $p$ = the point defining the plane.
+
+Let $pr$ = a second point, where the line from p to pr is perpendicular to the plane (the eye).
+
+$x$ is in the plane if:
+
+$$distance(x,pr)^2 = distance(p,pr)^2 + distance(x,p)^2$$
+
+For n-dimensional $x$ and $y$:
+
+$$distance(x,y) = \sqrt{\sum_{i=1}^n(x_i-y_i)^2}$$
+
+TODO
 
 ## GitHub-flavored Markdown (GFM) Note
 [GFM](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax) uses [MathJax](https://docs.mathjax.org/en/latest/)
 
 In GFM, \<br> makes a newline as does ending a line with \\.
 
-$ surrounds inline LaTex.<br>
-$$ surrounds blocks of LaTex, but I dont know how to make a newline.<br>
+`$` surrounds inline LaTex.<br>
+`$$` surrounds blocks of LaTex, which are centered on the screen.
 
-_ is subscript: $X_s$<br>
-^ is superscript: $X^2$<br>
-frac{numerator}{denominator}: $frac{1}{2}<br>
-I've tried lost of Stack Exchange ideas for newline, but none work.
+`_` is subscript: $X_s$<br>
+`^` is superscript: $X^2$<br>
+`\frac{numerator}{denominator}`: $\frac{1}{2}$<br>
 
-$Found\ in\ docs: e^{-\frac{t}{RC}}$<br>
-$Quadratic\ equation:\ ax^2\ +\ bx\ +\ c\ =\ 0$<br>
-$Right\ triangle\ sides\ (z\ is\ hypotenuse):\ x^2\ +\ y^2\ =\ z^2$
+Found in docs: $e^{-\frac{t}{RC}}$<br>
+Quadratic equation: $ax^2 + bx + c = 0$<br>
+Right triangle sides (z is hypotenuse): $x^2 + y^2 = z^2$
 
 From GitHub's [Math](https://github.com/billstclair/elm-projection/edit/main/math.md) page:
 
 **The Cauchy-Schwarz Inequality**\
-$$\left( \sum_{k=1}^n a_k b_k \right)^2 \leq \left( \sum_{k=1}^n a_k^2 \right) \left( \sum_{k=1}^n b_k^2 \right)$$
+$\left( \sum_{k=1}^n a_k b_k \right)^2 \leq \left( \sum_{k=1}^n a_k^2 \right) \left( \sum_{k=1}^n b_k^2 \right)$
+
+I used the [Markdown Viewer)](https://chromewebstore.google.com/detail/markdown-viewer/ckkdlimhmcjmikdlpkmbgfkaikojcbjk) extension in Chrome to check my MathJax work.
