@@ -22,7 +22,7 @@ $Found\ in\ docs: e^{-\frac{t}{RC}}$<br>
 $Quadratic\ equation:\ ax^2\ +\ bx\ +\ c\ =\ 0$<br>
 $Right\ triangle\ sides\ (z\ is\ hypotenuse):\ x^2\ +\ y^2\ =\ z^2$
 
-From GitHub's (Math)[https://github.com/billstclair/elm-projection/edit/main/math.md] page:
+From GitHub's [Math](https://github.com/billstclair/elm-projection/edit/main/math.md) page:
 
 **The Cauchy-Schwarz Inequality**\
 $$\left( \sum_{k=1}^n a_k b_k \right)^2 \leq \left( \sum_{k=1}^n a_k^2 \right) \left( \sum_{k=1}^n b_k^2 \right)$$
