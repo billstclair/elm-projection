@@ -11,18 +11,18 @@
 
 
 module Projection.Util exposing
-    ( numberDimensions, pointDimensions, vectorDimensions
-    , shapeDimensions, roomDimensions, eyeDimensions, seerDimensions
+    ( numberDimension, pointDimension, vectorDimension
+    , shapeDimension, roomDimension, eyeDimension, seerDimension
     , isEyeValid, isRoomValid, isSeerValid, isShapeValid, isVectorValid
     )
 
 {-| Utilities for `Project.Types`
 
 
-# Count Dimensions
+# Count Dimension
 
-@docs numberDimensions, pointDimensions, vectorDimensions
-@docs shapeDimensions, roomDimensions, eyeDimensions, seerDimensions
+@docs numberDimension, pointDimension, vectorDimension
+@docs shapeDimension, roomDimension, eyeDimension, seerDimension
 
 
 # Check Validity
@@ -45,77 +45,77 @@ import Projection.Types
         )
 
 
-{-| A number has 0 dimensions.
+{-| A number has 0 dimension.
 -}
-numberDimensions : Number -> Int
-numberDimensions number =
+numberDimension : Number -> Int
+numberDimension number =
     0
 
 
-{-| Count the dimensions in a `Point`.
+{-| Count the dimensions of a `Point`.
 -}
-pointDimensions : Point -> Int
-pointDimensions point =
-    List.length point
+pointDimension : Point -> Int
+pointDimension =
+    List.length
 
 
-{-| Count the dimensions in a `Vector`.
+{-| Count the dimensions of a `Vector`.
 -}
-vectorDimensions : Vector -> Int
-vectorDimensions vector =
-    vector.from |> pointDimensions
+vectorDimension : Vector -> Int
+vectorDimension =
+    .from >> pointDimension
 
 
-{-| Count the dimensions in a `Shape`.
+{-| Count the dimensions of a `Shape`.
 -}
-shapeDimensions : Shape -> Int
-shapeDimensions shape =
+shapeDimension : Shape -> Int
+shapeDimension shape =
     case List.head shape of
         Nothing ->
             0
 
         Just p ->
-            pointDimensions p
+            pointDimension p
 
 
-{-| Count the dimensions in a `Room`.
+{-| Count the dimensions of a `Room`.
 -}
-roomDimensions : Room -> Int
-roomDimensions room =
+roomDimension : Room -> Int
+roomDimension room =
     case List.head room of
         Nothing ->
             0
 
         Just shape ->
-            shapeDimensions shape
+            shapeDimension shape
 
 
-{-| Count the dimensions in an `Eye`.
+{-| Count the dimensions of an `Eye`.
 -}
-eyeDimensions : Eye -> Int
-eyeDimensions eye =
-    eye.position |> pointDimensions
+eyeDimension : Eye -> Int
+eyeDimension =
+    .position >> pointDimension
 
 
-{-| Count the dimensions in a `Seer`.
+{-| Count the dimensions of a `Seer`.
 -}
-seerDimensions : Seer -> Int
-seerDimensions seer =
-    seer.body |> roomDimensions
+seerDimension : Seer -> Int
+seerDimension seer =
+    seer.body |> roomDimension
 
 
-{-| A `Vector` is valid if both of its ends have the same number of dimensions.
+{-| A `Vector` is valid if both of its ends have the same number of dimension.
 -}
 isVectorValid : Vector -> Bool
 isVectorValid vector =
-    pointDimensions vector.from == pointDimensions vector.to
+    pointDimension vector.from == pointDimension vector.to
 
 
 {-| A `Shape` is valid if all of its `Point`s are of the same dimension.
 -}
 isShapeValid : Shape -> Bool
 isShapeValid shape =
-    List.map pointDimensions shape
+    List.map pointDimension shape
         |> LE.unique
         |> List.length
         |> (>) 2
@@ -129,7 +129,7 @@ isRoomValid room =
         |> LE.unique
         |> (\x -> x == [] || x == [ True ])
     )
-        && (List.map shapeDimensions room
+        && (List.map shapeDimension room
                 |> LE.unique
                 |> List.length
                 |> (>) 2
@@ -149,10 +149,10 @@ isEyeValid eye =
 
 
 {-| A `Seer` is valid if both its `eye` and its `body` are valid
-and have the same number of dimensions.
+and have the same number of dimension.
 -}
 isSeerValid : Seer -> Bool
 isSeerValid seer =
     isRoomValid seer.body
         && isEyeValid seer.eye
-        && (roomDimensions seer.body == eyeDimensions seer.eye)
+        && (roomDimension seer.body == eyeDimension seer.eye)
