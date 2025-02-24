@@ -8,12 +8,14 @@ A derivation of the projection math used in `Projection.elm`.
 
 GFM uses [MathJax](https://docs.mathjax.org/en/latest/)
 
-$ surrounds inline LaTex.
+\<br> makes a newline.
+
+$ surrounds inline LaTex.<br>
 $$ surrounds blocks of LaTex
 
-_ is subscript: $X_s$ 
-^ is superscript: $X^2$ 
-frac{numerator}{denominator} 
+_ is subscript: $X_s$<br>
+^ is superscript: $X^2$<br>
+frac{numerator}{denominator}<br>
 
 $$
 Found\ in\ docs: e^{-\frac{t}{RC}} 
