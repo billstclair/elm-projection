@@ -11,9 +11,9 @@
 
 
 module Projection.EncodeDecode exposing
-    ( encodeNumber, encodePoint, encodeVector, encodeRotation
+    ( encodeNumber, encodePoint, encodeVector
     , encodeShape, encodeRoom, encodeEye, encodeSeer
-    , numberDecoder, pointDecoder, vectorDecoder, rotationDecoder
+    , numberDecoder, pointDecoder, vectorDecoder
     , shapeDecoder, roomDecoder, eyeDecoder, seerDecoder
     )
 
@@ -22,13 +22,13 @@ module Projection.EncodeDecode exposing
 
 # Encoders
 
-@docs encodeNumber, encodePoint, encodeVector, encodeRotation
+@docs encodeNumber, encodePoint, encodeVector
 @docs encodeShape, encodeRoom, encodeEye, encodeSeer
 
 
 # Decoders
 
-@docs numberDecoder, pointDecoder, vectorDecoder, rotationDecoder
+@docs numberDecoder, pointDecoder, vectorDecoder
 @docs shapeDecoder, roomDecoder, eyeDecoder, seerDecoder
 
 -}
@@ -36,7 +36,7 @@ module Projection.EncodeDecode exposing
 import Json.Decode as JD exposing (Decoder)
 import Json.Decode.Pipeline as DP exposing (custom, hardcoded, optional, required)
 import Json.Encode as JE exposing (Value)
-import Projection.Types exposing (Eye, Number, Point, Room, Rotation, Seer, Shape, Vector)
+import Projection.Types exposing (Eye, Number, Point, Room, Seer, Shape, Vector)
 
 
 {-| Encode a `Number`
@@ -86,20 +86,6 @@ vectorDecoder =
         |> required "to" pointDecoder
 
 
-{-| Encode a `Rotation`
--}
-encodeRotation : Rotation -> Value
-encodeRotation rotation =
-    JE.list JE.float rotation
-
-
-{-| Decoder for `Rotation`s.
--}
-rotationDecoder : Decoder Rotation
-rotationDecoder =
-    JD.list JD.float
-
-
 {-| Encode a `Shape`.
 -}
 encodeShape : Shape -> Value
@@ -135,7 +121,7 @@ encodeEye eye =
     JE.object
         [ ( "position", encodePoint eye.position )
         , ( "direction", encodeVector eye.direction )
-        , ( "rotation", encodeRotation eye.rotation )
+        , ( "up", encodeVector eye.up )
         ]
 
 
@@ -146,7 +132,7 @@ eyeDecoder =
     JD.succeed Eye
         |> required "position" pointDecoder
         |> required "direction" vectorDecoder
-        |> required "rotation" rotationDecoder
+        |> required "up" vectorDecoder
 
 
 {-| Encode a `Seer`

@@ -11,7 +11,7 @@
 
 
 module Projection.Types exposing
-    ( Number, Point, Vector, Rotation
+    ( Number, Point, Vector
     , Shape, Room
     , Eye, Seer
     )
@@ -23,7 +23,7 @@ given the eye looking at it.
 
 # Basic types
 
-@docs Number, Point, Vector, Rotation
+@docs Number, Point, Vector
 
 
 # Things
@@ -47,12 +47,6 @@ type alias Number =
 {-| An ordered list of `Number`s, one for each dimension.
 -}
 type alias Point =
-    List Number
-
-
-{-| A number, in radians.
--}
-type alias Rotation =
     List Number
 
 
@@ -86,7 +80,7 @@ type alias Eye =
 
     -- `.from` is `position`,
     , direction : Vector
-    , rotation : Rotation
+    , up : Vector
     }
 
 

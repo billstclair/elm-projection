@@ -54,7 +54,6 @@ import Projection.Types
         , Number
         , Point
         , Room
-        , Rotation
         , Seer
         , Shape
         , Vector

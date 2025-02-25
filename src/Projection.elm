@@ -22,7 +22,7 @@ Types are defined in `Projection.Types`.
 
 -}
 
-import Projection.Types exposing (Eye, Point, Room, Rotation, Shape, Vector)
+import Projection.Types exposing (Eye, Point, Room, Shape, Vector)
 
 
 {-| Project a point to one fewer dimensions.
