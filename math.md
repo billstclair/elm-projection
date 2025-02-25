@@ -11,7 +11,7 @@ A line is defined by two points, $p_1$ and $p_2$.
 
 $x$ is on the line if, for some constant, $C$:
 
-$$x = p_2 + ((p_1-p_2) * C)$$
+$$x = p_2 + C(p_1-p_2)$$
 
 A plane is defined as a point and a line perpendicular to the plane.
 
