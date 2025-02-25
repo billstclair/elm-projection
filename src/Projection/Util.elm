@@ -14,6 +14,8 @@ module Projection.Util exposing
     ( numberDimension, pointDimension, vectorDimension
     , shapeDimension, roomDimension, eyeDimension, seerDimension
     , isEyeValid, isRoomValid, isSeerValid, isShapeValid, isVectorValid
+    , pointDistance
+    , applyid, apply0, apply1
     )
 
 {-| Utilities for `Project.Types`
@@ -28,6 +30,20 @@ module Projection.Util exposing
 # Check Validity
 
 @docs isEyeValid, isRoomValid, isSeerValid, isShapeValid, isVectorValid
+
+
+# `distance`
+
+This IS a metric space, so it has a `distance` function.
+
+Imagine a package for non-metric spaces.
+
+@docs pointDistance
+
+
+# Apply, Elm Style
+
+@docs applyid, apply0, apply1
 
 -}
 
@@ -132,7 +148,7 @@ isRoomValid room =
         && (List.map shapeDimension room
                 |> LE.unique
                 |> List.length
-                |> (>) 2
+                |> (<) 2
            )
 
 
@@ -156,3 +172,50 @@ isSeerValid seer =
     isRoomValid seer.body
         && isEyeValid seer.eye
         && (roomDimension seer.body == eyeDimension seer.eye)
+
+
+{-| I don't think Elm has apply, and I discovered why when I wrote it.
+You need an ID function, as a basis for the value, when there are no args.
+-}
+applyid : y -> (x -> y -> y) -> List x -> y
+applyid id f xs =
+    let
+        applyer f2 sum xs2 =
+            case xs2 of
+                [] ->
+                    sum
+
+                x :: tail ->
+                    applyer f2
+                        (f2 x sum)
+                        tail
+    in
+    applyer f id xs
+
+
+{-| `apply` for functions with an id of 0.
+-}
+apply0 : (a -> Number -> Number) -> List a -> Number
+apply0 =
+    applyid 0
+
+
+{-| `apply` for functions with an id of 1.
+-}
+apply1 : (a -> Number -> Number) -> List a -> Number
+apply1 =
+    applyid 1
+
+
+{-| The distance between two points.
+
+    sqrt ((p1 - p2) ** 2)
+
+-}
+pointDistance : Point -> Point -> Number
+pointDistance p1 p2 =
+    -- TODO
+    List.map2 (-) p1 p2
+        |> List.map (\x -> x ^ 2)
+        |> apply0 (+)
+        |> sqrt

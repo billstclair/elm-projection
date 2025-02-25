@@ -53,7 +53,7 @@ type alias Point =
 {-| A number, in radians.
 -}
 type alias Rotation =
-    Number
+    List Number
 
 
 {-| Two points, from & to

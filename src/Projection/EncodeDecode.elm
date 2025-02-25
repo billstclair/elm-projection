@@ -90,14 +90,14 @@ vectorDecoder =
 -}
 encodeRotation : Rotation -> Value
 encodeRotation rotation =
-    JE.float rotation
+    JE.list JE.float rotation
 
 
 {-| Decoder for `Rotation`s.
 -}
 rotationDecoder : Decoder Rotation
 rotationDecoder =
-    JD.float
+    JD.list JD.float
 
 
 {-| Encode a `Shape`.

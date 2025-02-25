@@ -27,18 +27,11 @@ For n-dimensional $x$ and $y$:
 
 $$distance(x,y) = \sqrt{\sum_{i=1}^n(x_i-y_i)^2}$$
 
-I asked Grok to solve This. IT Thought fit about 45 seconds, and posted a very long proof, detiving the following solution:
+I asked Grok to solve This. It thought for about 45 seconds, and posted a [very long proof](./grok.md), ending with the following solution:
 
-The set of all (\mathbf{X}) that satisfy the equation (\text{distance}(X, P_r)^2 = \text{distance}(P, P_r)^2 + \text{distance}(X, P)^2) is:
-
-[
-\left{ \mathbf{X} \mid (\mathbf{X} - \mathbf{P}) \cdot (\mathbf{P} - \mathbf{P_r}) = 0 \right}.
-]
-
-- If (\mathbf{P} \neq \mathbf{P_r}), this represents a hyperplane through (\mathbf{P}) perpendicular to (\mathbf{P} - \mathbf{P_r}).
-- If (\mathbf{P} = \mathbf{P_r}), this represents the entire (n)-dimensional space.
-
-Try Grok and Wolfram Alpha before solving this myself.
+* If $p≠p_r$ : The solution is the hyperplane defined by: $\sum_{i=1}^{n}(x_i−p_i)(p_{r_i}−p_{i})=0$
+* If $p=p_r$ : All points $x∈R_n$ are solutions.
+This describes the set of points ( x ) satisfying the given distance equation, typically forming a hyperplane unless $p$ coincides with $p_r$
 
 TODO
 
