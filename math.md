@@ -21,7 +21,7 @@ Let $pr$ = a second point, where the line from p to pr is perpendicular to the p
 
 $x$ is in the plane if:
 
-$$distance(x,pr)^2 = distance(p,pr)^2 + distance(x,p)^2$$
+$$distance(x,p_r)^2 = distance(p,p_r)^2 + distance(x,p)^2$$
 
 For n-dimensional $x$ and $y$:
 
