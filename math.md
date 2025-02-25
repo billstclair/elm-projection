@@ -27,7 +27,7 @@ For n-dimensional $x$ and $y$:
 
 $$distance(x,y) = \sqrt{\sum_{i=1}^n(x_i-y_i)^2}$$
 
-Try Grok and Wolfram Alpha before dolving this myself.
+Try Grok and Wolfram Alpha before solving this myself.
 
 TODO
 
