@@ -1,4 +1,4 @@
---------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 --
 -- Util.elm
 -- Utilities for `Projection.Types`
@@ -151,14 +151,13 @@ isRoomValid room =
            )
 
 
-{-| An `Eye` is valid if `eye.direction` is valid and
-`eye.direction.from == eye.position`,
-And the `eye.direction` is not of zero length.
+{-| An `Eye` is valid if `eye.direction` is valid, of the same
+dimension as Eye.position And is not of zero length.
 -}
 isEyeValid : Eye -> Bool
 isEyeValid eye =
     isVectorValid eye.direction
-        && (eye.position == eye.direction.from)
+        && (pointDimension eye.position == vectorDimension eye.direction)
         -- This should probably demand some minimum distance
         && (eye.direction.from /= eye.direction.to)
 
