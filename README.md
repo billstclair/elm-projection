@@ -8,8 +8,6 @@ It has a few basic types:
 
 `Vector` = two points (p1, p2)
 
-`Rotation` = a number, in radians.
-
 `Shape` = an ordered list of points. [p1, p2, p3, ...]
 To draw a `Shape`, draw a line from each point in the list to the next.
 
