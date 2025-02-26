@@ -75,12 +75,14 @@ type alias Room =
 
 {-| The observer for the projection.
 
+`direction` is from `position`.
+
 `up` is from the origin.
 
 -}
 type alias Eye =
     { position : Point
-    , direction : Vector
+    , direction : Point
     , up : Point
     }
 

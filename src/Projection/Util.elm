@@ -151,16 +151,14 @@ isRoomValid room =
            )
 
 
-{-| An `Eye` is valid if `eye.direction` is valid, is of the same
-dimension as Eye.position and is not of zero length, `eye.up` is
-of the same dimension as eye.direction, and eye.up is not the origin.
+{-| An `Eye` is valid if `eye.direction` is of the same dimension as
+Eye.position, `eye.up` is of the same dimension as eye.direction, and
+eye.up is not the origin.
 -}
 isEyeValid : Eye -> Bool
 isEyeValid eye =
-    isVectorValid eye.direction
-        && (pointDimension eye.position == vectorDimension eye.direction)
+    (pointDimension eye.position == pointDimension eye.direction)
         -- This should probably demand some minimum distance
-        && (eye.direction.from /= eye.direction.to)
         && (pointDimension eye.position == pointDimension eye.up)
         -- Likewise
         && (eye.up /= List.repeat (pointDimension eye.up) 0)

@@ -168,10 +168,7 @@ roomData =
 eye : Eye
 eye =
     { position = [ 1, 2, 3 ]
-    , direction =
-        { from = [ 4, 5, 6 ]
-        , to = [ 7, 8, 9 ]
-        }
+    , direction = [ 4, 5, 6 ]
     , up = [ 0, 0, 1 ]
     }
 
@@ -216,11 +213,9 @@ position =
     [ 1, 0, 0 ]
 
 
-direction : Vector
+direction : Point
 direction =
-    { from = [ 1, 0, 0 ]
-    , to = [ 0, 0, 0 ]
-    }
+    [ 0, 0, 0 ]
 
 
 up : Point
@@ -239,38 +234,13 @@ validEyeData =
       )
     , -- 2
       ( False
-        --direction not valid
+        --direction dimension /= eye dimension
       , { position = position
-        , direction =
-            { from = [ 1, 0, 0 ]
-            , to = [ 0, 0 ]
-            }
+        , direction = [ 0, 0 ]
         , up = up
         }
       )
     , -- 3
-      ( False
-        --direction dimension /= eye dimension
-      , { position = position
-        , direction =
-            { from = [ 1, 0 ]
-            , to = [ 0, 0 ]
-            }
-        , up = up
-        }
-      )
-    , -- 4
-      ( False
-        --direction.from == direction.to
-      , { position = position
-        , direction =
-            { from = [ 1, 0, 0 ]
-            , to = [ 1, 0, 0 ]
-            }
-        , up = up
-        }
-      )
-    , -- 5
       ( False
         --up dimension /= eye dimension
       , { position = position
@@ -278,7 +248,7 @@ validEyeData =
         , up = [ 0, 1 ]
         }
       )
-    , -- 6
+    , -- 4
       ( False
         --up.from == up.to
       , { position = position
@@ -298,12 +268,13 @@ body =
 
 validSeerData : List ( Bool, Seer )
 validSeerData =
-    [ ( True
+    [ -- 1
+      ( True
       , { body = body
         , eye = eye
         }
       )
-    , -- invalid body
+    , -- 2: invalid body
       ( False
       , { body =
             [ [ [ 0, 0, 0 ], [ 0, 1, 0 ], [ 1, 1, 0 ], [ 0, 0, 0 ] ]
@@ -312,20 +283,17 @@ validSeerData =
         , eye = eye
         }
       )
-    , -- invalid eye
+    , -- 3: invalid eye
       ( False
       , { body = body
         , eye =
-            { position = [ 0, 2 ]
-            , direction =
-                { from = [ 0, 2, 0 ]
-                , to = [ 0, 0, 0 ]
-                }
-            , up = [ 0, 0, 1 ]
+            { position = position
+            , direction = [ 0, 0 ]
+            , up = up
             }
         }
       )
-    , -- body dimension /= eye dimension
+    , -- 4: body dimension /= eye dimension
       ( False
       , { body = [ [ [ 0, 0 ], [ 0, 1 ], [ 1, 1 ], [ 0, 0 ] ] ]
         , eye = eye
