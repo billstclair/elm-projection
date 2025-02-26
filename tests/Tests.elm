@@ -78,54 +78,65 @@ expectResult sb was =
 pointData : List Point
 pointData =
     [ [ 1, 2, 3, 4 ]
-    , [ 0, 1 ]
+    , [ 5, 6 ]
     ]
 
 
 vectorData : List Vector
 vectorData =
     [ { from = [ 1, 2, 3 ]
-      , to = [ 2, 3, 4 ]
+      , to = [ 4, 5, 6 ]
       }
     ]
 
 
 shapeData : List Shape
 shapeData =
-    [ [ [ 0, 0, 0, 0 ]
-      , [ 1, 0, 0, 0 ]
-      , [ 1, 1, 0, 0 ]
-      , [ 0, 1, 0, 0 ]
-      , [ 0, 0, 0, 0 ]
-      , [ 0, 0, 1, 0 ]
-      , [ 0, 1, 1, 0 ]
-      , [ 1, 1, 1, 0 ]
-      , [ 1, 0, 1, 0 ]
-      , [ 0, 0, 1, 0 ]
+    [ [ [ 1, 2, 3, 4 ]
+      , [ 5, 6, 7, 8 ]
+      ]
+    , [ [ 9, 10, 11, 12 ]
+      , [ 13, 14, 15, 16 ]
+      , [ 17, 18, 19, 20 ]
       ]
     ]
 
 
+room : Room
+room =
+    shapeData
+
+
 roomData : List Room
 roomData =
-    [ shapeData ]
+    [ room
+    , List.reverse room
+    ]
+
+
+eye : Eye
+eye =
+    { position = [ 1, 2, 3 ]
+    , direction =
+        { from = [ 4, 5, 6 ]
+        , to = [ 7, 8, 9 ]
+        }
+    , up =
+        { from = [ 10, 11, 12 ]
+        , to = [ 13, 14, 15 ]
+        }
+    }
 
 
 eyeData : List Eye
 eyeData =
-    [ { position = [ 1, 0, 0 ]
-      , direction =
-            { from = [ 1, 0, 0 ]
-            , to = [ 0, 0, 0 ]
-            }
-      , up =
-            { from = [ 0, 0, 0 ]
-            , to = [ 0, 0, 1 ]
-            }
-      }
+    [ eye
     ]
 
 
 seerData : List Seer
 seerData =
-    []
+    [ { body = Maybe.withDefault [] <| List.head roomData
+      , eye = eye
+      }
+    ]
