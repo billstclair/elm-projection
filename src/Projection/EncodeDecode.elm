@@ -121,7 +121,7 @@ encodeEye eye =
     JE.object
         [ ( "position", encodePoint eye.position )
         , ( "direction", encodeVector eye.direction )
-        , ( "up", encodeVector eye.up )
+        , ( "up", encodePoint eye.up )
         ]
 
 
@@ -132,7 +132,7 @@ eyeDecoder =
     JD.succeed Eye
         |> required "position" pointDecoder
         |> required "direction" vectorDecoder
-        |> required "up" vectorDecoder
+        |> required "up" pointDecoder
 
 
 {-| Encode a `Seer`

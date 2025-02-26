@@ -80,7 +80,7 @@ type alias Eye =
 
     -- `.from` is `position`,
     , direction : Vector
-    , up : Vector
+    , up : Point
     }
 
 
