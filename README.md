@@ -8,16 +8,14 @@ It has a few basic types:
 
 `Vector` = two points (p1, p2)
 
-`Rotation` = a number, in radians.
-
 `Shape` = an ordered list of points. [p1, p2, p3, ...]
 To draw a `Shape`, draw a line from each point in the list to the next.
 
 `Room` = a list of shapes: `[s1, s2, s3, ...]`
 
-`Eye` (the viewpoint) = `{position : Point), direction : Vector, rotation : Rotation}`
+`Eye` (the viewpoint) = `{position : Point), direction : Vector, up : Vector}`
 
-`Seer` is a `Room` with an `Eye`
+`Seer` is a `Room` (it's body) with an `Eye`
 
 `project eye point -> (newEye, newPoint)`
 The resulting eye & point have one fewer dimensions than the input.

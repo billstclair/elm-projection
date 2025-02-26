@@ -194,14 +194,14 @@ applyid id f xs =
 
 {-| `apply` for functions with an id of 0.
 -}
-apply0 : (a -> Number -> Number) -> List a -> Number
+apply0 : (a -> number -> number) -> List a -> number
 apply0 =
     applyid 0
 
 
 {-| `apply` for functions with an id of 1.
 -}
-apply1 : (a -> Number -> Number) -> List a -> Number
+apply1 : (a -> number -> number) -> List a -> number
 apply1 =
     applyid 1
 
