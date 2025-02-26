@@ -136,7 +136,7 @@ eyeData =
 
 seerData : List Seer
 seerData =
-    [ { body = Maybe.withDefault [] <| List.head roomData
+    [ { body = room
       , eye = eye
       }
     ]
