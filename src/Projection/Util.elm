@@ -1,4 +1,4 @@
---------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 --
 -- Util.elm
 -- Utilities for `Projection.Types`
@@ -133,7 +133,7 @@ isShapeValid shape =
     List.map pointDimension shape
         |> LE.unique
         |> List.length
-        |> (<) 2
+        |> (>) 2
 
 
 {-| A `Room` is valid if all of its `Shape`s are valid and have the same dimension.
@@ -147,20 +147,22 @@ isRoomValid room =
         && (List.map shapeDimension room
                 |> LE.unique
                 |> List.length
-                |> (<) 2
+                |> (>) 2
            )
 
 
-{-| An `Eye` is valid if `eye.direction` is valid and
-`eye.direction.from == eye.position`,
-And the `eye.direction` is not of zero length.
+{-| An `Eye` is valid if `eye.direction` is of the same dimension as
+Eye.position, `eye.up` is of the same dimension as eye.direction, and
+eye.up is not the origin.
 -}
 isEyeValid : Eye -> Bool
 isEyeValid eye =
-    isVectorValid eye.direction
-        && (eye.position == eye.direction.from)
+    (pointDimension eye.position == pointDimension eye.direction)
         -- This should probably demand some minimum distance
-        && (eye.direction.from /= eye.direction.to)
+        && (pointDimension eye.position == pointDimension eye.up)
+        -- Likewise
+        && (eye.up /= List.repeat (pointDimension eye.up) 0)
+        && (pointDimension eye.up == pointDimension eye.position)
 
 
 {-| A `Seer` is valid if both its `eye` and its `body` are valid
