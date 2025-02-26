@@ -211,81 +211,78 @@ validRoomData =
     ]
 
 
+position : Point
+position =
+    [ 1, 0, 0 ]
+
+
+direction : Vector
+direction =
+    { from = [ 1, 0, 0 ]
+    , to = [ 0, 0, 0 ]
+    }
+
+
+up : Point
+up =
+    [ 0, 0, 1 ]
+
+
 validEyeData : List ( Bool, Eye )
 validEyeData =
     [ -- 1
       ( True
-      , { position = [ 1, 0, 0 ]
-        , direction =
-            { from = [ 1, 0, 0 ]
-            , to = [ 0, 0, 0 ]
-            }
-        , up = [ 0, 0, 1 ]
+      , { position = position
+        , direction = direction
+        , up = up
         }
       )
     , -- 2
       ( False
         --direction not valid
-      , { position = [ 1, 0, 0 ]
+      , { position = position
         , direction =
             { from = [ 1, 0, 0 ]
             , to = [ 0, 0 ]
             }
-        , up = [ 0, 0, 1 ]
+        , up = up
         }
       )
     , -- 3
       ( False
         --direction dimension /= eye dimension
-      , { position = [ 1, 0, 0 ]
+      , { position = position
         , direction =
             { from = [ 1, 0 ]
             , to = [ 0, 0 ]
             }
-        , up = [ 0, 0, 1 ]
+        , up = up
         }
       )
     , -- 4
       ( False
         --direction.from == direction.to
-      , { position = [ 1, 0, 0 ]
+      , { position = position
         , direction =
             { from = [ 1, 0, 0 ]
             , to = [ 1, 0, 0 ]
             }
-        , up = [ 0, 0, 1 ]
+        , up = up
         }
       )
     , -- 5
       ( False
-        --up not valid
-      , { position = [ 1, 0, 0 ]
-        , direction =
-            { from = [ 1, 0, 0 ]
-            , to = [ 1, 0, 0 ]
-            }
-        , up = [ 0, 0, 1 ]
+        --up dimension /= eye dimension
+      , { position = position
+        , direction = direction
+        , up = [ 0, 1 ]
         }
       )
     , -- 6
       ( False
-        --up dimension /= eye dimension
-      , { position = [ 1, 0, 0 ]
-        , direction =
-            { from = [ 1, 0, 0 ]
-            , to = [ 1, 0, 0 ]
-            }
-        , up = [ 0, 1 ]
-        }
-      )
-    , -- 7
-      ( False
         --up.from == up.to
-      , { position = [ 1, 0, 0 ]
-        , direction =
-            { from = [ 0, 0, 0 ]
-            , to = [ 1, 0, 0 ]
-            }
+      , { position = position
+        , direction = direction
         , up = [ 0, 0, 0 ]
         }
       )
