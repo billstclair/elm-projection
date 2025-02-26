@@ -56,4 +56,4 @@ From GitHub's [Math](https://github.com/billstclair/elm-projection/edit/main/mat
 **The Cauchy-Schwarz Inequality**\
 $\left( \sum_{k=1}^n a_k b_k \right)^2 \leq \left( \sum_{k=1}^n a_k^2 \right) \left( \sum_{k=1}^n b_k^2 \right)$
 
-I used the [Markdown Viewer)](https://chromewebstore.google.com/detail/markdown-viewer/ckkdlimhmcjmikdlpkmbgfkaikojcbjk) extension in Chrome to check my MathJax work.
+I used the [Markdown Viewer](https://chromewebstore.google.com/detail/markdown-viewer/ckkdlimhmcjmikdlpkmbgfkaikojcbjk) extension in Chrome to check my MathJax work.
