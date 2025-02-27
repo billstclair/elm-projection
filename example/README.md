@@ -8,4 +8,4 @@ To build:
     
 that compiles `src/Main.elm` into `site/index.html`
 
-It's live at (GibGoyGames.com/elm-projection)[https://GibGoyGames.com/elm-projection/].
+It's live at [GibGoyGames.com/elm-projection](https://GibGoyGames.com/elm-projection/).

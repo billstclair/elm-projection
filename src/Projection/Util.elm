@@ -15,7 +15,7 @@ module Projection.Util exposing
     , shapeDimension, roomDimension, eyeDimension, seerDimension
     , isEyeValid, isRoomValid, isSeerValid, isShapeValid, isVectorValid
     , pointDistance
-    , applyid, apply0, apply1
+    , apply_id, apply0, apply1
     )
 
 {-| Utilities for `Project.Types`
@@ -43,7 +43,7 @@ Imagine a package for non-metric spaces.
 
 # Apply, Elm Style
 
-@docs applyid, apply0, apply1
+@docs apply_id, apply0, apply1
 
 -}
 
@@ -178,8 +178,8 @@ isSeerValid seer =
 {-| I don't think Elm has apply, and I discovered why when I wrote it.
 You need an ID function, as a basis for the value, when there are no args.
 -}
-applyid : y -> (x -> y -> y) -> List x -> y
-applyid id f xs =
+apply_id : y -> (x -> y -> y) -> List x -> y
+apply_id id f xs =
     let
         applyer f2 sum xs2 =
             case xs2 of
@@ -198,19 +198,19 @@ applyid id f xs =
 -}
 apply0 : (a -> number -> number) -> List a -> number
 apply0 =
-    applyid 0
+    apply_id 0
 
 
 {-| `apply` for functions with an id of 1.
 -}
 apply1 : (a -> number -> number) -> List a -> number
 apply1 =
-    applyid 1
+    apply_id 1
 
 
 {-| The distance between two points.
 
-    sqrt ((p1 - p2) ** 2)
+    sqrt ((p1 - p2) ^ 2)
 
 -}
 pointDistance : Point -> Point -> Number
