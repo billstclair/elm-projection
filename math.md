@@ -33,6 +33,29 @@ I asked Grok to solve This. It thought for about 45 seconds, and posted a [very 
 * If $p=p_r$ : All points $x∈R_n$ are solutions.
 This describes the set of points ( x ) satisfying the given distance equation, typically forming a hyperplane unless $p$ coincides with $p_r$
 
+Now we just need to intersect the plane with the line from the eye to $p$.
+
+That point is described by two equations:
+
+$$\sum_{i-1}^{n}(x_i-p_{e_i})(p_{e_i}-p_{p_i})=0$$
+$$x=p_e+C(p-p_e)$$
+
+Where $p_e$ is the eye position, $p_p$ is the plane center position, and $p$ is the point position.
+
+The second equation is really $n$ equations:
+
+$$x_i=p_{e_i}+C(p_i-p_{e_i})$$
+
+Grok [solved](grok-projection.html) this too:
+
+$$x = p_e - \frac{||p_e-p_p||^2}{(p-p_e)\bullet(p_e-p_p)}(p-p_e)$$
+
+and Grok fixed the bug in my first equation, which should have been:
+
+$$\sum_{i-1}^{n}(x_i-p_i)(p_{e_i}-p_{p_i})=0$$
+
+Now I just have to express that equation in n-1 dimensions, the coordinate system of the plane, with up as appropriate.
+
 TODO
 
 ## GitHub-flavored Markdown (GFM) Note
