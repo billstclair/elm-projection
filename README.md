@@ -29,3 +29,5 @@ Utility functions are in `Projection.Util`.
 Projection functions are in `Projection`.
 
 See [math.md](https://github.com/billstclair/elm-projection/blob/main/math.md) for details of the math involved.
+
+The example is live at [gibgoygames.com/elm-projection](https://gibgoygames.com/elm-projection/).

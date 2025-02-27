@@ -29,12 +29,20 @@ update msg model =
             { model | count = model.count - 1 }
 
 
+h1 : String -> Html msg
+h1 s =
+    Html.h1 [] [ Html.text s ]
+
+
 view : Model -> Html Msg
 view model =
     div []
-        [ button [ onClick Increment ] [ text "+1" ]
-        , div [] [ text <| String.fromInt model.count ]
-        , button [ onClick Decrement ] [ text "-1" ]
+        [ h1 "billstclair/elm-projection example"
+        , div []
+            [ text "This will become an "
+            , Html.code [] [ text "elm-projection" ]
+            , text " example."
+            ]
         ]
 
 
