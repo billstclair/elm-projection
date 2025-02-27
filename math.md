@@ -56,6 +56,8 @@ $$\sum_{i-1}^{n}(x_i-p_i)(p_{e_i}-p_{p_i})=0$$
 
 Now I just have to express that equation in n-1 dimensions, the coordinate system of the plane, with up as appropriate.
 
+I asked Grok to do the whole thing, with only an English description of what I wanted. [grok-projection-math.html](grok-projection-math.html) is the result.
+
 TODO
 
 ## GitHub-flavored Markdown (GFM) Note
