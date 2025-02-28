@@ -58,7 +58,27 @@ Now I just have to express that equation in n-1 dimensions, the coordinate syste
 
 I asked Grok to do the whole thing, with only an English description of what I wanted. [grok-projection-math.html](grok-projection-math.html) is the result.
 
-TODO
+## Setup
+
+Eye position: $( E )$<br>
+Look-at point: $( L )$<br>
+Projection plane: Perpendicular to $D=L−E$, passing through $L$.<br>
+Point to project $( P )$<br>
+
+## 3D Answer
+
+$$Q=E+\left(\frac{(L−E)\bullet(P−E)}{(L−E)\bullet(L−E)}\right)(P−E)$$
+
+## 2D Answer
+
+Basis for the plane:<br>
+$v_1$ = x axis<br>
+$v_2$ = y axis<br>
+
+$$q_1=(Q-L)\bullet v_1$$
+$$q_2=(Q-L)\bullet v_2$$
+
+
 
 ## GitHub-flavored Markdown (GFM) Note
 [GFM](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax) uses [MathJax](https://docs.mathjax.org/en/latest/)
