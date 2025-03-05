@@ -16,7 +16,7 @@ module Projection.Util exposing
     , isEyeValid, isRoomValid, isSeerValid, isShapeValid, isVectorValid
     , pointDistance
     , apply_id, apply0, apply1
-    , pplus, pminus, ptimes, pdivide, papply
+    , pplus, pminus, ptimes, pdivide, pdot, papply
     )
 
 {-| Utilities for `Project.Types`
@@ -49,7 +49,7 @@ Imagine a package for non-metric spaces.
 
 # Point math
 
-@docs pplus, pminus, ptimes, pdivide, papply
+@docs pplus, pminus, ptimes, pdivide, pdot, papply
 
 -}
 
@@ -253,6 +253,14 @@ ptimes p1 p2 =
 pdivide : Point -> Point -> Point
 pdivide p1 p2 =
     papply (/) p1 p2
+
+
+{-| Dot product.
+-}
+pdot : Point -> Point -> Number
+pdot p1 p2 =
+    ptimes p1 p2
+        |> apply0 (+)
 
 
 {-| Apply a function to two points.
