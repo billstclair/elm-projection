@@ -16,6 +16,7 @@ module Projection.Util exposing
     , isEyeValid, isRoomValid, isSeerValid, isShapeValid, isVectorValid
     , pointDistance
     , apply_id, apply0, apply1
+    , plus, minus, times, divide, papply
     )
 
 {-| Utilities for `Project.Types`
@@ -44,6 +45,11 @@ Imagine a package for non-metric spaces.
 # Apply, Elm Style
 
 @docs apply_id, apply0, apply1
+
+
+# Point math
+
+@docs plus, minus, times, divide, papply
 
 -}
 
@@ -215,8 +221,42 @@ apply1 =
 -}
 pointDistance : Point -> Point -> Number
 pointDistance p1 p2 =
-    -- TODO
     List.map2 (-) p1 p2
         |> List.map (\x -> x ^ 2)
         |> apply0 (+)
         |> sqrt
+
+
+{-| Add points
+-}
+plus : Point -> Point -> Point
+plus p1 p2 =
+    List.map2 (+) p1 p2
+
+
+{-| Subtract points
+-}
+minus : Point -> Point -> Point
+minus p1 p2 =
+    List.map2 (-) p1 p2
+
+
+{-| Multiply points.
+-}
+times : Point -> Point -> Point
+times p1 p2 =
+    List.map2 (*) p1 p2
+
+
+{-| Divide points.
+-}
+divide : Point -> Point -> Point
+divide p1 p2 =
+    List.map2 (/) p1 p2
+
+
+{-| Apply a function to two points.
+-}
+papply : (Number -> Number -> Number) -> Point -> Point -> Point
+papply f p1 p2 =
+    List.map2 f p1 p2

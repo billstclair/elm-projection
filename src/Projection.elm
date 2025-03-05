@@ -29,7 +29,10 @@ import Projection.Types exposing (Eye, Point, Room, Seer, Shape, Vector)
 -}
 project : Point -> Eye -> ( Point, Eye )
 project point eye =
-    -- TODO
+    let
+        { position, direction, up } =
+            eye
+    in
     ( point, eye )
 
 
@@ -38,7 +41,7 @@ project point eye =
 projectSeer : Point -> Seer -> ( Point, Seer )
 projectSeer point seer =
     let
-        ( p2, eye2 ) =
+        ( newPoint, newEye ) =
             project point seer.eye
     in
-    ( p2, { seer | eye = eye2 } )
+    ( newPoint, { seer | eye = newEye } )
