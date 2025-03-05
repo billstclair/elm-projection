@@ -231,28 +231,28 @@ pointDistance p1 p2 =
 -}
 pplus : Point -> Point -> Point
 pplus p1 p2 =
-    List.map2 (+) p1 p2
+    papply (+) p1 p2
 
 
 {-| Subtract points
 -}
 pminus : Point -> Point -> Point
 pminus p1 p2 =
-    List.map2 (-) p1 p2
+    papply (-) p1 p2
 
 
 {-| Multiply points.
 -}
 ptimes : Point -> Point -> Point
 ptimes p1 p2 =
-    List.map2 (*) p1 p2
+    papply (*) p1 p2
 
 
 {-| Divide points.
 -}
 pdivide : Point -> Point -> Point
 pdivide p1 p2 =
-    List.map2 (/) p1 p2
+    papply (/) p1 p2
 
 
 {-| Apply a function to two points.

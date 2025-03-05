@@ -22,7 +22,8 @@ Types are defined in `Projection.Types`.
 
 -}
 
-import Projection.Types exposing (Eye, Point, Room, Seer, Shape, Vector)
+import Projection.Types as Types exposing (Eye, Point, Room, Seer, Shape, Vector)
+import Projection.Util as Util exposing (papply, pdivide, pminus, pplus, ptimes)
 
 
 {-| Project a point to one fewer dimensions.
