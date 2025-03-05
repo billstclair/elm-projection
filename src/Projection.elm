@@ -23,7 +23,15 @@ Types are defined in `Projection.Types`.
 -}
 
 import Projection.Types as Types exposing (Eye, Point, Room, Seer, Shape, Vector)
-import Projection.Util as Util exposing (papply, pdivide, pminus, pplus, ptimes)
+import Projection.Util as Util
+    exposing
+        ( papply
+        , pdivide
+        , pdot
+        , pminus
+        , pplus
+        , ptimes
+        )
 
 
 {-| Project a point to one fewer dimensions.
@@ -33,8 +41,26 @@ project point eye =
     let
         { position, direction, up } =
             eye
+
+        ( l, e ) =
+            ( [ 0, 0, 0 ], position )
+
+        p =
+            point
+
+        lE_PEoverLE_LE =
+            pminus l e
+                |> pdot (pminus p e)
+                |> (/)
+                    (pminus l e
+                        |> pdot (pminus l e)
+                    )
+
+        q =
+            pplus e <|
+                List.map ((*) lE_PEoverLE_LE) (pminus p e)
     in
-    ( point, eye )
+    ( q, eye )
 
 
 {-| Same as `project`, but takes a `Seer` as the second arg.
