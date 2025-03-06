@@ -12,13 +12,13 @@
 ----------------------------------------------------------------------
 
 
-module Projection exposing (project, projectSeer)
+module Projection exposing (project, projectEye, projectSeer)
 
 {-| Do geometric projection.
 
 Types are defined in `Projection.Types`.
 
-@docs project, projectSeer
+@docs project, projectEye, projectSeer
 
 -}
 
@@ -41,7 +41,7 @@ import Projection.Util as Util
 
 {-| Project a point to one fewer dimensions.
 -}
-project : Point -> Eye -> ( Point, Eye )
+project : Point -> Eye -> Point
 project point eye =
     let
         dim =
@@ -101,15 +101,18 @@ project point eye =
                 papply1 ((*) lE_PEoverLE_LE) (pminus p e)
     in
     -- This works only if eye is on the y axis and up is on the z axis.
-    ( removeDimension 2 q, removeEyeDimension 2 eye )
+    removeDimension 2 q
+
+
+{-| Project an Eye to one fewer dimensions.
+-}
+projectEye : Eye -> Eye
+projectEye eye =
+    removeEyeDimension 2 eye
 
 
 {-| Same as `project`, but takes a `Seer` as the second arg.
 -}
-projectSeer : Point -> Seer -> ( Point, Seer )
+projectSeer : Point -> Seer -> Point
 projectSeer point seer =
-    let
-        ( newPoint, newEye ) =
-            project point seer.eye
-    in
-    ( newPoint, { seer | eye = newEye } )
+    project point seer.eye

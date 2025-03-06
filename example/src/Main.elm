@@ -71,8 +71,11 @@ projectTo2 point eye =
 
     else
         let
-            ( p2, e2 ) =
+            p2 =
                 Projection.project point eye
+
+            e2 =
+                Projection.projectEye eye
         in
         projectTo2 p2 e2
 
@@ -96,7 +99,7 @@ initialModel =
 
 projectShape : Shape -> Eye -> Shape
 projectShape shape eye =
-    List.map (\p -> Projection.project p eye |> Tuple.first) shape
+    List.map (\p -> Projection.project p eye) shape
 
 
 type Msg
