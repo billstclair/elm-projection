@@ -12,13 +12,17 @@
 ----------------------------------------------------------------------
 
 
-module Projection exposing (project, projectEye, projectSeer)
+module Projection exposing
+    ( project, projectEye, projectPointAndEye, projectSeer
+    , projectTo2D, projectShapeTo2D
+    )
 
 {-| Do geometric projection.
 
 Types are defined in `Projection.Types`.
 
-@docs project, projectEye, projectSeer
+@docs project, projectEye, projectPointAndEye, projectSeer
+@docs projectTo2D, projectShapeTo2D
 
 -}
 
@@ -104,11 +108,45 @@ project point eye =
     removeDimension 2 q
 
 
+{-| Project a point and eye to 2 dimensions.
+-}
+projectTo2D : Point -> Eye -> Point
+projectTo2D point eye =
+    if Util.pointDimension point <= 2 then
+        point
+
+    else
+        let
+            ( p2, e2 ) =
+                projectPointAndEye point eye
+        in
+        projectTo2D p2 e2
+
+
+{-| Project a `Shape` to 2 dimensions.
+-}
+projectShapeTo2D : Shape -> Eye -> Shape
+projectShapeTo2D shape eye =
+    let
+        projectOne : Point -> Point
+        projectOne point =
+            projectTo2D point eye
+    in
+    List.map projectOne shape
+
+
 {-| Project an Eye to one fewer dimensions.
 -}
 projectEye : Eye -> Eye
 projectEye eye =
     removeEyeDimension 2 eye
+
+
+{-| Project a point and the eye to one fewer dimensions.
+-}
+projectPointAndEye : Point -> Eye -> ( Point, Eye )
+projectPointAndEye point eye =
+    ( project point eye, projectEye eye )
 
 
 {-| Same as `project`, but takes a `Seer` as the second arg.

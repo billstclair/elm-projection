@@ -11,7 +11,7 @@
 
 
 module Projection.Types exposing
-    ( Number, Point, Vector
+    ( Number, Point, Vector, Matrix
     , Shape, Room
     , Eye, Seer
     )
@@ -23,7 +23,7 @@ given the eye looking at it.
 
 # Basic types
 
-@docs Number, Point, Vector
+@docs Number, Point, Vector, Matrix
 
 
 # Things
@@ -56,6 +56,12 @@ type alias Vector =
     { from : Point
     , to : Point
     }
+
+
+{-| An n-dimensional matrix
+-}
+type alias Matrix =
+    List Point
 
 
 {-| An ordered list of `Point`s.

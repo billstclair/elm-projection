@@ -21,6 +21,7 @@ module Projection.Render exposing (renderShape, renderRoom)
 import Projection
 import Projection.Types exposing (Eye, Point, Room, Shape)
 import Svg exposing (Svg)
+import Svg.Attributes as Attributes
 
 
 pointDims : Point -> String
@@ -32,23 +33,27 @@ pointDims point =
                 ++ String.fromFloat y
 
         _ ->
-            Svg.text <| "Point doesn't have two dimensions" ++ Debug.toString point
+            "Point doesn't have two dimensions" ++ Debug.toString point
 
 
 shapePointDims : Shape -> String
 shapePointDims shape =
     let
         addPoint p s =
-            s ++ " " ++ pointDims poins
+            s ++ " " ++ pointDims p
     in
     List.foldl addPoint "" shape
 
 
 {-| Render a `Shape`.
 -}
-renderShape : Shape -> Svg msg
-renderShape shape =
-    Svg.polyline [ points <| shapePointDims shape ]
+renderShape : Shape -> Eye -> Svg msg
+renderShape shape eye =
+    let
+        shape2d =
+            Projection.projectShapeTo2D shape eye
+    in
+    Svg.polyline [ Attributes.points <| shapePointDims shape2d ]
         []
 
 
@@ -56,5 +61,5 @@ renderShape shape =
 -}
 renderRoom : Room -> Eye -> Svg msg
 renderRoom room eye =
-    svg [] <|
+    Svg.svg [] <|
         List.map (\s -> renderShape s eye) room
