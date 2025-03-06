@@ -26,6 +26,7 @@ import Projection.Types as Types exposing (Eye, Point, Room, Seer, Shape, Vector
 import Projection.Util as Util
     exposing
         ( papply
+        , papply1
         , pdivide
         , pdot
         , pminus
@@ -43,7 +44,7 @@ project point eye =
             eye
 
         ( l, e ) =
-            ( [ 0, 0, 0 ], position )
+            ( List.repeat (Util.pointDimension position) 0, position )
 
         p =
             point
@@ -58,7 +59,7 @@ project point eye =
 
         q =
             pplus e <|
-                List.map ((*) lE_PEoverLE_LE) (pminus p e)
+                papply1 ((*) lE_PEoverLE_LE) (pminus p e)
     in
     ( q, eye )
 
