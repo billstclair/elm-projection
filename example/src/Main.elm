@@ -16,9 +16,36 @@ theEye =
     }
 
 
+{-| An edge of the cube.
+-}
 e : Number
 e =
     1 / 2
+
+
+type alias Cube =
+    { center : Point
+    , size : Number --edge length
+    , points : List Point
+    }
+
+
+makeCube : Int -> Number -> Point -> Cube
+makeCube dimension size center =
+    { center = center
+    , size = size
+    , points = []
+    }
+
+
+cubePoints : Int -> Number -> Point -> List Point
+cubePoints dimension size center =
+    let
+        sizeo2 =
+            size / 2
+    in
+    -- TODO
+    []
 
 
 cube : Shape
