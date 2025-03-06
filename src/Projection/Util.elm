@@ -367,7 +367,7 @@ transformPoint matrix point =
         List.map (pdot point) matrix
 
 
-{-| The matrix to rotate an n-dimensional scene by an angle θ\\theta\\theta
+{-| The matrix to rotate an n-dimensional scene by an angle θ
 around a central line, assuming the line is along the nth axis
 and the rotation occurs in the x-y plane.
 -}
