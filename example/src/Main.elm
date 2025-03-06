@@ -78,12 +78,25 @@ projectTo2 point eye =
 
 
 type alias Model =
-    { count : Int }
+    { count : Int
+    , eye : Eye
+    , shape : Shape
+    , projected : Shape
+    }
 
 
 initialModel : Model
 initialModel =
-    { count = 0 }
+    { count = 0
+    , eye = theEye
+    , shape = cube
+    , projected = projectShape cube theEye
+    }
+
+
+projectShape : Shape -> Eye -> Shape
+projectShape shape eye =
+    List.map (\p -> Projection.project p eye |> Tuple.first) shape
 
 
 type Msg
@@ -111,9 +124,8 @@ view model =
     div []
         [ h1 "billstclair/elm-projection example"
         , div []
-            [ text "This will become an "
-            , Html.code [] [ text "elm-projection" ]
-            , text " example."
+            [ text "Projected cube: "
+            , text <| Debug.toString model.projected
             ]
         ]
 
