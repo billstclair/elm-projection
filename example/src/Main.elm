@@ -66,7 +66,7 @@ cube =
 
 projectTo2 : Point -> Eye -> ( Point, Eye )
 projectTo2 point eye =
-    if Util.pointDimension point == 2 then
+    if Util.pointDimension point <= 2 then
         ( point, eye )
 
     else
