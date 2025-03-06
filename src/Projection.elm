@@ -25,13 +25,17 @@ Types are defined in `Projection.Types`.
 import Projection.Types as Types exposing (Eye, Point, Room, Seer, Shape, Vector)
 import Projection.Util as Util
     exposing
-        ( papply
+        ( eyeDimension
+        , papply
         , papply1
         , pdivide
         , pdot
         , pminus
+        , pointDimension
         , pplus
         , ptimes
+        , removeDimension
+        , removeEyeDimension
         )
 
 
@@ -40,11 +44,46 @@ import Projection.Util as Util
 project : Point -> Eye -> ( Point, Eye )
 project point eye =
     let
+        dim =
+            pointDimension point
+
+        eyeDim =
+            eyeDimension eye
+
+        dimsOk =
+            dim == eyeDim
+
+        dims =
+            ( dim, eyeDim )
+
+        msg =
+            if dimsOk then
+                dims
+
+            else
+                Debug.log "Projection.project, dims don't match." dims
+
         { position, direction, up } =
             eye
 
+        positionOk =
+            removeDimension 1 position == [ 0, 0 ]
+
+        directionOk =
+            direction == List.repeat dim 0
+
+        upOk =
+            up == [ 0, 1, 0 ]
+
+        eye2 =
+            if positionOk && directionOk && upOk then
+                eye
+
+            else
+                Debug.log "  Eye not OK" eye
+
         ( l, e ) =
-            ( List.repeat (Util.pointDimension position) 0, position )
+            ( List.repeat dim 0, position )
 
         p =
             point
@@ -61,7 +100,8 @@ project point eye =
             pplus e <|
                 papply1 ((*) lE_PEoverLE_LE) (pminus p e)
     in
-    ( q, eye )
+    -- This works only if eye is on the y axis and up is on the z axis.
+    ( removeDimension 2 q, removeEyeDimension 2 eye )
 
 
 {-| Same as `project`, but takes a `Seer` as the second arg.

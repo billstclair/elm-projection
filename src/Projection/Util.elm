@@ -17,6 +17,7 @@ module Projection.Util exposing
     , pointDistance
     , apply_id, apply0, apply1
     , pplus, pminus, ptimes, pdivide, pdot, papply, papply1
+    , removeDimension, removeEyeDimension
     )
 
 {-| Utilities for `Project.Types`
@@ -50,6 +51,11 @@ Imagine a package for non-metric spaces.
 # Point math
 
 @docs pplus, pminus, ptimes, pdivide, pdot, papply, papply1
+
+
+# Remove a dimensions
+
+@docs removeDimension, removeEyeDimension
 
 -}
 
@@ -275,3 +281,47 @@ papply f p1 p2 =
 papply1 : (Number -> Number) -> Point -> Point
 papply1 f p =
     List.map f p
+
+
+cdr : List a -> List a
+cdr l =
+    case List.tail l of
+        Nothing ->
+            []
+
+        Just tail ->
+            tail
+
+
+{-| Remove a dimensions from a point
+-}
+removeDimension : Int -> Point -> Point
+removeDimension dim p =
+    if dim >= pointDimension p then
+        p
+
+    else
+        let
+            loop d tail res =
+                if d >= dim then
+                    List.reverse res ++ cdr tail
+
+                else
+                    case tail of
+                        [] ->
+                            List.reverse res
+
+                        head :: rest ->
+                            loop (d + 1) rest <| head :: res
+        in
+        loop 0 p []
+
+
+{-| Remove a dimension from an `Eye`.
+-}
+removeEyeDimension : Int -> Eye -> Eye
+removeEyeDimension dim { position, direction, up } =
+    { position = removeDimension dim position
+    , direction = removeDimension dim direction
+    , up = removeDimension dim up
+    }
