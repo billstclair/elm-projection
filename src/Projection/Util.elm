@@ -293,7 +293,7 @@ cdr l =
             tail
 
 
-{-| Remove a dimensions from a point
+{-| Remove a dimension from a point
 -}
 removeDimension : Int -> Point -> Point
 removeDimension dim p =
