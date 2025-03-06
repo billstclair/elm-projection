@@ -64,22 +64,6 @@ cube =
     ]
 
 
-projectTo2 : Point -> Eye -> ( Point, Eye )
-projectTo2 point eye =
-    if Util.pointDimension point <= 2 then
-        ( point, eye )
-
-    else
-        let
-            p2 =
-                Projection.project point eye
-
-            e2 =
-                Projection.projectEye eye
-        in
-        projectTo2 p2 e2
-
-
 type alias Model =
     { count : Int
     , eye : Eye

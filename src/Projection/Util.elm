@@ -11,13 +11,14 @@
 
 
 module Projection.Util exposing
-    ( numberDimension, pointDimension, vectorDimension
+    ( numberDimension, pointDimension, vectorDimension, matrixDimension
     , shapeDimension, roomDimension, eyeDimension, seerDimension
-    , isEyeValid, isRoomValid, isSeerValid, isShapeValid, isVectorValid
+    , isEyeValid, isRoomValid, isSeerValid, isShapeValid, isVectorValid, isMatrixValid
     , pointDistance
     , apply_id, apply0, apply1
     , pplus, pminus, ptimes, pdivide, pdot, papply, papply1
     , removeDimension, removeEyeDimension
+    , transformPoint, rotationMatrix
     )
 
 {-| Utilities for `Project.Types`
@@ -25,13 +26,13 @@ module Projection.Util exposing
 
 # Count Dimension
 
-@docs numberDimension, pointDimension, vectorDimension
+@docs numberDimension, pointDimension, vectorDimension, matrixDimension
 @docs shapeDimension, roomDimension, eyeDimension, seerDimension
 
 
 # Check Validity
 
-@docs isEyeValid, isRoomValid, isSeerValid, isShapeValid, isVectorValid
+@docs isEyeValid, isRoomValid, isSeerValid, isShapeValid, isVectorValid, isMatrixValid
 
 
 # `distance`
@@ -53,9 +54,14 @@ Imagine a package for non-metric spaces.
 @docs pplus, pminus, ptimes, pdivide, pdot, papply, papply1
 
 
-# Remove a dimensions
+# Remove a dimension.
 
 @docs removeDimension, removeEyeDimension
+
+
+# Transform a point.
+
+@docs transformPoint, rotationMatrix
 
 -}
 
@@ -63,6 +69,7 @@ import List.Extra as LE
 import Projection.Types
     exposing
         ( Eye
+        , Matrix
         , Number
         , Point
         , Room
@@ -91,6 +98,18 @@ pointDimension =
 vectorDimension : Vector -> Int
 vectorDimension =
     .from >> pointDimension
+
+
+{-| Count the dimensions of a `Matrix`.
+-}
+matrixDimension : Matrix -> Int
+matrixDimension matrix =
+    case matrix of
+        [] ->
+            0
+
+        p :: rest ->
+            pointDimension p
 
 
 {-| Count the dimensions of a `Shape`.
@@ -136,6 +155,16 @@ seerDimension =
 isVectorValid : Vector -> Bool
 isVectorValid vector =
     pointDimension vector.from == pointDimension vector.to
+
+
+{-| A `Matrix` is valid if all of its rows have the same number of dimensions.
+-}
+isMatrixValid : Matrix -> Bool
+isMatrixValid matrix =
+    List.map pointDimension matrix
+        |> LE.unique
+        |> List.length
+        |> (>) 2
 
 
 {-| A `Shape` is valid if all of its `Point`s are of the same dimension.
@@ -325,3 +354,43 @@ removeEyeDimension dim { position, direction, up } =
     , direction = removeDimension dim direction
     , up = removeDimension dim up
     }
+
+
+{-| Multiple a matrix by a point.
+-}
+transformPoint : Matrix -> Point -> Point
+transformPoint matrix point =
+    if matrixDimension matrix /= pointDimension point then
+        point
+
+    else
+        List.map (pdot point) matrix
+
+
+{-| The matrix to rotate an n-dimensional scene by an angle θ\\theta\\theta
+around a central line, assuming the line is along the nth axis
+and the rotation occurs in the x-y plane.
+-}
+rotationMatrix : Int -> Number -> Matrix
+rotationMatrix dimension angle =
+    let
+        nzeroes : Int -> Point
+        nzeroes n =
+            List.repeat n 0
+
+        oneAt : Int -> Point
+        oneAt n =
+            nzeroes (n - 1) ++ [ 1 ] ++ nzeroes (dimension - n)
+
+        restOfMatrix : Int -> List Point -> List Point
+        restOfMatrix n res =
+            if n >= dimension then
+                List.reverse res
+
+            else
+                restOfMatrix (n + 1) (oneAt n :: res)
+    in
+    [ [ cos angle, negate (sin angle) ] ++ nzeroes (dimension - 2)
+    , [ sin angle, cos angle ] ++ nzeroes (dimension - 2)
+    ]
+        ++ restOfMatrix 2 []
