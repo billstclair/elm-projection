@@ -26,7 +26,7 @@ e =
 type alias Cube =
     { center : Point
     , size : Number --edge length
-    , points : List Point
+    , body : Room
     }
 
 
@@ -34,12 +34,12 @@ makeCube : Int -> Number -> Point -> Cube
 makeCube dimension size center =
     { center = center
     , size = size
-    , points = []
+    , body = []
     }
 
 
-cubePoints : Int -> Number -> Point -> List Point
-cubePoints dimension size center =
+cubeBody : Int -> Number -> Point -> Room
+cubeBody dimension size center =
     let
         sizeo2 =
             size / 2
