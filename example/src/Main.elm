@@ -3,8 +3,9 @@ module Main exposing (main)
 import Browser
 import Html exposing (Html, button, div, text)
 import Html.Events exposing (onClick)
+import List.Extra as LE
 import Projection exposing (project)
-import Projection.Types exposing (Eye, Number, Point, Shape)
+import Projection.Types exposing (Eye, Number, Point, Room, Shape)
 import Projection.Util as Util
 
 
@@ -25,7 +26,6 @@ e =
 
 type alias Cube =
     { center : Point
-    , size : Number --edge length
     , body : Room
     }
 
@@ -33,9 +33,13 @@ type alias Cube =
 makeCube : Int -> Number -> Point -> Cube
 makeCube dimension size center =
     { center = center
-    , size = size
     , body = []
     }
+
+
+cubeVertices : Int -> Room
+cubeVertices dims =
+    []
 
 
 cubeBody : Int -> Number -> Point -> Room
@@ -48,8 +52,8 @@ cubeBody dimension size center =
     []
 
 
-cube : Shape
-cube =
+cube3d : Shape
+cube3d =
     [ [ -e, -e, -e ]
     , [ -e, e, -e ]
     , [ -e, e, e ]
@@ -103,8 +107,8 @@ initialModel : Model
 initialModel =
     { count = 0
     , eye = theEye
-    , shape = cube
-    , projected = projectShape cube theEye
+    , shape = cube3d
+    , projected = projectShape cube3d theEye
     }
 
 
