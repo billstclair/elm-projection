@@ -1,12 +1,14 @@
-module Main exposing (main)
+module Main exposing (..)
 
 import Browser
+import Dict exposing (Dict)
 import Html exposing (Html, button, div, text)
 import Html.Events exposing (onClick)
 import List.Extra as LE
 import Projection exposing (project)
 import Projection.Types exposing (Eye, Number, Point, Room, Shape)
 import Projection.Util as Util
+import Set exposing (Set)
 
 
 theEye : Eye
@@ -37,19 +39,39 @@ makeCube dimension size center =
     }
 
 
-cubeVertices : Int -> Room
+cubeNd : Int -> Shape -> Shape
+cubeNd dimsLeft cubeN_1d =
+    if dimsLeft <= 0 then
+        cubeN_1d
+
+    else
+        cubeNd (dimsLeft - 1) <|
+            (List.map (\x -> [ 0 :: x, 1 :: x ]) cubeN_1d
+                |> List.concat
+            )
+
+
+cubeVertices : Int -> Shape
 cubeVertices dims =
-    []
+    cubeNd dims [ [] ]
 
 
-cubeBody : Int -> Number -> Point -> Room
-cubeBody dimension size center =
+cubeBody : Int -> Room
+cubeBody dims =
     let
-        sizeo2 =
-            size / 2
+        vertices : List Point
+        vertices =
+            cubeVertices dims
+
+        visited : Set Point
+        visited =
+            Set.empty
+
+        fillDict : ( Point, Point ) -> Dict Point (List Point) -> Dict Point (List Point)
+        fillDict ( pi, po ) dict =
+            Dict.insert pi (po :: (Maybe.withDefault [] <| Dict.get pi dict)) dict
     in
-    -- TODO
-    []
+    [ vertices ]
 
 
 cube3d : Shape
