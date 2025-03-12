@@ -67,9 +67,25 @@ cubeBody dims =
         visited =
             Set.empty
 
-        fillDict : ( Point, Point ) -> Dict Point (List Point) -> Dict Point (List Point)
-        fillDict ( pi, po ) dict =
-            Dict.insert pi (po :: (Maybe.withDefault [] <| Dict.get pi dict)) dict
+        fillDict : List Point -> Dict Point (List Point) -> Dict Point (List Point)
+        fillDict points d =
+            case points of
+                [] ->
+                    d
+
+                [ p ] ->
+                    d
+
+                p1 :: p2 :: rest ->
+                    fillDict (p2 :: rest) (Dict.insert p1 (p2 :: rest) d)
+
+        lines : List (List Point)
+        lines =
+            [ vertices ]
+
+        dict : Dict Point (List Point)
+        dict =
+            fillDict vertices Dict.empty
     in
     [ vertices ]
 
