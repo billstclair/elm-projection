@@ -113,10 +113,31 @@ fillOutCubes vertices dict =
         |> List.map (\( x, toys ) -> x :: toys)
 
 
+notidx : Number -> Number
+notidx n =
+    if n == 0 then
+        1
+
+    else
+        0
+
+
+adjacentPoints : Point -> List Point
+adjacentPoints p =
+    let
+        indexer idx n =
+            List.take idx p ++ (notidx n :: List.drop (idx + 1) p)
+    in
+    List.indexedMap indexer p
+
+
 missingPoints : Point -> List Point -> List Point
 missingPoints point points =
     -- TODO
-    points
+    adjacentPoints point
+        |> Set.fromList
+        |> Set.diff (Set.fromList points)
+        |> Set.toList
 
 
 cube3d : Shape
