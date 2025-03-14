@@ -87,7 +87,41 @@ cubeBody dims =
         dict =
             fillDict vertices Dict.empty
     in
-    [ vertices ]
+    fillOutCubes [ vertices ] dict
+
+
+fillOutCubes : List Point -> Dict Point (List Point) -> Room
+fillOutCubes vertices dict =
+    -- TODO
+    let
+        folder : Point -> List Point -> Dict Point (List Point) -> Dict Point (List Point)
+        folder p ps d =
+            let
+                missing : List Point
+                missing =
+                    missingPoints p ps
+
+                new : List ( Point, List Point )
+                new =
+                    List.map (\x -> ( p, x )) missing
+
+                new2 : List ( Point, List Point )
+                new2 =
+                    List.map (\x -> ( x, p )) missing
+            in
+            Dict.fromList new
+                |> Dict.union (Dict.fromList new2)
+                |> Dict.union d
+    in
+    Dict.foldl folder dict dict
+        |> Dict.toList
+        |> List.map (\( x, toys ) -> x :: toys)
+
+
+missingPoints : Point -> List Point -> List Point
+missingPoints point points =
+    -- TODO
+    points
 
 
 cube3d : Shape
