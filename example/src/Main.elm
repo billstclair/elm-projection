@@ -87,7 +87,7 @@ cubeBody dims =
         dict =
             fillDict vertices Dict.empty
     in
-    fillOutCubes [ vertices ] dict
+    fillOutCubes vertices dict
 
 
 fillOutCubes : List Point -> Dict Point (List Point) -> Room
@@ -103,14 +103,9 @@ fillOutCubes vertices dict =
 
                 new : List ( Point, List Point )
                 new =
-                    List.map (\x -> ( p, x )) missing
-
-                new2 : List ( Point, List Point )
-                new2 =
-                    List.map (\x -> ( x, p )) missing
+                    List.map (\x -> ( p, [ x ] )) missing
             in
             Dict.fromList new
-                |> Dict.union (Dict.fromList new2)
                 |> Dict.union d
     in
     Dict.foldl folder dict dict
