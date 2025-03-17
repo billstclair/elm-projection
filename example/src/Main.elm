@@ -35,7 +35,7 @@ type alias Cube =
 makeCube : Int -> Number -> Point -> Cube
 makeCube dimension size center =
     { center = center
-    , body = []
+    , body = Util.timesRoom (size / 2) <| cubeBody dimension
     }
 
 
@@ -113,6 +113,12 @@ fillOutCubes vertices dict =
         |> List.map (\( x, toys ) -> x :: toys)
 
 
+{-| Binariize a number:
+
+    0 -> 1
+    /0 -> 0
+
+-}
 notidx : Number -> Number
 notidx n =
     if n == 0 then

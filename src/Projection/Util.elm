@@ -19,6 +19,7 @@ module Projection.Util exposing
     , pplus, pminus, ptimes, pdivide, pdot, papply, papply1
     , removeDimension, removeEyeDimension
     , transformPoint, rotationMatrix
+    , timesRoom, timesShape, timesPoint
     )
 
 {-| Utilities for `Project.Types`
@@ -62,6 +63,11 @@ Imagine a package for non-metric spaces.
 # Transform a point.
 
 @docs transformPoint, rotationMatrix
+
+
+# Other stuff
+
+@docs timesRoom, timesShape, timesPoint
 
 -}
 
@@ -365,6 +371,27 @@ transformPoint matrix point =
 
     else
         List.map (pdot point) matrix
+
+
+{-| Distribute times
+-}
+timesRoom : Number -> Room -> Room
+timesRoom n room =
+    List.map (timesShape n) room
+
+
+{-| Distribute times
+-}
+timesShape : Number -> Shape -> Shape
+timesShape n shape =
+    List.map (timesPoint n) shape
+
+
+{-| Distribute times
+-}
+timesPoint : Number -> Point -> Point
+timesPoint n p =
+    List.map ((*) n) p
 
 
 {-| The matrix to rotate an n-dimensional scene by an angle θ
