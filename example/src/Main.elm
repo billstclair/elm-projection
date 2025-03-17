@@ -56,6 +56,23 @@ cubeVertices dims =
     cubeNd dims [ [] ]
 
 
+get : Point -> Dict Point (Set Point) -> Set Point
+get p d =
+    case Dict.get p d of
+        Just ps ->
+            ps
+
+        Nothing ->
+            [] |> Set.fromList
+
+
+put : Point -> Point -> Dict Point (Set Point) -> Dict Point (Set Point)
+put p1 p2 d =
+    d
+        |> Dict.insert p1 (Set.insert p2 <| get p1 d)
+        |> Dict.insert p2 (Set.insert p1 <| get p2 d)
+
+
 cubeBody : Int -> Room
 cubeBody dims =
     let
@@ -63,11 +80,7 @@ cubeBody dims =
         vertices =
             cubeVertices dims
 
-        visited : Set Point
-        visited =
-            Set.empty
-
-        fillDict : List Point -> Dict Point (List Point) -> Dict Point (List Point)
+        fillDict : List Point -> Dict Point (Set Point) -> Dict Point (Set Point)
         fillDict points d =
             case points of
                 [] ->
@@ -77,40 +90,41 @@ cubeBody dims =
                     d
 
                 p1 :: p2 :: rest ->
-                    fillDict (p2 :: rest) (Dict.insert p1 (p2 :: rest) d)
+                    fillDict (p2 :: rest) (put p1 p2 d)
 
-        lines : List (List Point)
-        lines =
-            [ vertices ]
-
-        dict : Dict Point (List Point)
+        dict : Dict Point (Set Point)
         dict =
             fillDict vertices Dict.empty
+
+        eachVertex : List Point -> Dict Point (Set Point) -> Room -> ( Room, Dict Point (Set Point) )
+        eachVertex vs d res =
+            case vs of
+                [] ->
+                    ( res, d )
+
+                vertex :: rest ->
+                    let
+                        linesToAdjacents : List Point -> Dict Point (Set Point) -> Room -> ( Room, Dict Point (Set Point) )
+                        linesToAdjacents adjacents d2 res2 =
+                            case adjacents of
+                                [] ->
+                                    ( res2, d2 )
+
+                                p :: ptail ->
+                                    if Set.member vertex <| get p d then
+                                        linesToAdjacents ptail d2 res2
+
+                                    else
+                                        linesToAdjacents ptail
+                                            (put vertex p d2)
+                                            ([ vertex, p ] :: res)
+                    in
+                    linesToAdjacents (adjacentPoints vertex) d [ vertices ]
+
+        ( room3, d3 ) =
+            eachVertex vertices dict [ vertices ]
     in
-    fillOutCubes vertices dict
-
-
-fillOutCubes : List Point -> Dict Point (List Point) -> Room
-fillOutCubes vertices dict =
-    -- TODO
-    let
-        folder : Point -> List Point -> Dict Point (List Point) -> Dict Point (List Point)
-        folder p ps d =
-            let
-                missing : List Point
-                missing =
-                    missingPoints p ps
-
-                new : List ( Point, List Point )
-                new =
-                    List.map (\x -> ( p, [ x ] )) missing
-            in
-            Dict.fromList new
-                |> Dict.union d
-    in
-    Dict.foldl folder dict dict
-        |> Dict.toList
-        |> List.map (\( x, toys ) -> x :: toys)
+    room3
 
 
 {-| Binariize a number:
@@ -139,7 +153,6 @@ adjacentPoints p =
 
 missingPoints : Point -> List Point -> List Point
 missingPoints point points =
-    -- TODO
     adjacentPoints point
         |> Set.fromList
         |> Set.diff (Set.fromList points)
