@@ -80,10 +80,6 @@ cubeBody dims =
         vertices =
             cubeVertices dims
 
-        insert : Point -> Point -> Dict Point (Set Point) -> Dict Point (Set Point)
-        insert p1 p2 d =
-            put p1 p2 d
-
         fillDict : List Point -> Dict Point (Set Point) -> Dict Point (Set Point)
         fillDict points d =
             case points of
@@ -94,7 +90,7 @@ cubeBody dims =
                     d
 
                 p1 :: p2 :: rest ->
-                    fillDict (p2 :: rest) (insert p1 p2 d)
+                    fillDict (p2 :: rest) (put p1 p2 d)
 
         lines : List (List Point)
         lines =
@@ -104,30 +100,8 @@ cubeBody dims =
         dict =
             fillDict vertices Dict.empty
     in
-    fillOutCubes vertices dict
-
-
-fillOutCubes : List Point -> Dict Point (Set Point) -> Room
-fillOutCubes vertices dict =
     -- TODO
-    let
-        folder : Point -> List Point -> Dict Point (Set Point) -> Dict Point (Set Point)
-        folder p ps d =
-            let
-                missing : List Point
-                missing =
-                    missingPoints p ps
-
-                new : List ( Point, List Point )
-                new =
-                    List.map (\x -> ( p, [ x ] )) missing
-            in
-            Dict.fromList new
-                |> Dict.union d
-    in
-    Dict.foldl folder dict dict
-        |> Dict.toList
-        |> List.map (\( x, toys ) -> x :: toys)
+    []
 
 
 notidx : Number -> Number
