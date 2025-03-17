@@ -56,6 +56,23 @@ cubeVertices dims =
     cubeNd dims [ [] ]
 
 
+get : Point -> Dict Point (Set Point) -> Set Point
+get p d =
+    case Dict.get p d of
+        Just ps ->
+            ps
+
+        Nothing ->
+            [] |> Set.fromList
+
+
+put : Point -> Point -> Dict Point (Set Point) -> Dict Point (Set Point)
+put p1 p2 d =
+    d
+        |> Dict.insert p1 (Set.insert p2 <| get p1 d)
+        |> Dict.insert p2 (Set.insert p1 <| get p2 d)
+
+
 cubeBody : Int -> Room
 cubeBody dims =
     let
@@ -63,11 +80,11 @@ cubeBody dims =
         vertices =
             cubeVertices dims
 
-        visited : Set Point
-        visited =
-            Set.empty
+        insert : Point -> Point -> Dict Point (Set Point) -> Dict Point (Set Point)
+        insert p1 p2 d =
+            put p1 p2 d
 
-        fillDict : List Point -> Dict Point (List Point) -> Dict Point (List Point)
+        fillDict : List Point -> Dict Point (Set Point) -> Dict Point (Set Point)
         fillDict points d =
             case points of
                 [] ->
@@ -77,24 +94,24 @@ cubeBody dims =
                     d
 
                 p1 :: p2 :: rest ->
-                    fillDict (p2 :: rest) (Dict.insert p1 (p2 :: rest) d)
+                    fillDict (p2 :: rest) (insert p1 p2 d)
 
         lines : List (List Point)
         lines =
             [ vertices ]
 
-        dict : Dict Point (List Point)
+        dict : Dict Point (Set Point)
         dict =
             fillDict vertices Dict.empty
     in
     fillOutCubes vertices dict
 
 
-fillOutCubes : List Point -> Dict Point (List Point) -> Room
+fillOutCubes : List Point -> Dict Point (Set Point) -> Room
 fillOutCubes vertices dict =
     -- TODO
     let
-        folder : Point -> List Point -> Dict Point (List Point) -> Dict Point (List Point)
+        folder : Point -> List Point -> Dict Point (Set Point) -> Dict Point (Set Point)
         folder p ps d =
             let
                 missing : List Point
@@ -133,7 +150,6 @@ adjacentPoints p =
 
 missingPoints : Point -> List Point -> List Point
 missingPoints point points =
-    -- TODO
     adjacentPoints point
         |> Set.fromList
         |> Set.diff (Set.fromList points)
