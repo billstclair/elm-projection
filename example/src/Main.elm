@@ -92,16 +92,39 @@ cubeBody dims =
                 p1 :: p2 :: rest ->
                     fillDict (p2 :: rest) (put p1 p2 d)
 
-        lines : List (List Point)
-        lines =
-            [ vertices ]
-
         dict : Dict Point (Set Point)
         dict =
             fillDict vertices Dict.empty
+
+        eachVertex : List Point -> Dict Point (Set Point) -> Room -> ( Room, Dict Point (Set Point) )
+        eachVertex vs d res =
+            case vs of
+                [] ->
+                    ( res, d )
+
+                vertex :: rest ->
+                    let
+                        linesToAdjacents : List Point -> Dict Point (Set Point) -> Room -> ( Room, Dict Point (Set Point) )
+                        linesToAdjacents adjacents d2 res2 =
+                            case adjacents of
+                                [] ->
+                                    ( res2, d2 )
+
+                                p :: ptail ->
+                                    if Set.member vertex <| get p d then
+                                        linesToAdjacents ptail d2 res2
+
+                                    else
+                                        linesToAdjacents ptail
+                                            (put vertex p d2)
+                                            ([ vertex, p ] :: res)
+                    in
+                    linesToAdjacents (adjacentPoints vertex) d [ vertices ]
+
+        ( room3, d3 ) =
+            eachVertex vertices dict [ vertices ]
     in
-    -- TODO
-    []
+    room3
 
 
 notidx : Number -> Number
