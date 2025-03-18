@@ -76,18 +76,22 @@ cubeBody dims =
             cubeVertices dims
 
         eachVertex : List Point -> Dict Point (Set Point) -> Room -> ( Room, Dict Point (Set Point) )
-        eachVertex vs d res =
+        eachVertex vs d room =
             case vs of
                 [] ->
-                    ( res, d )
+                    ( room, d )
 
                 vertex :: rest ->
-                    linesToAdjacents vertex (adjacentPoints vertex) d []
+                    let
+                        ( room3, d3 ) =
+                            linesToAdjacents vertex (adjacentPoints vertex) d room
+                    in
+                    eachVertex rest d3 room3
 
-        ( room3, d3 ) =
+        ( room4, d4 ) =
             eachVertex vertices Dict.empty []
     in
-    room3
+    room4
 
 
 linesToAdjacents : Point -> List Point -> Dict Point (Set Point) -> Room -> ( Room, Dict Point (Set Point) )
