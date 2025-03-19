@@ -87,11 +87,8 @@ cubeBody dims =
                             linesToAdjacents vertex (adjacentPoints vertex) d room
                     in
                     eachVertex rest d3 room3
-
-        ( room4, d4 ) =
-            eachVertex vertices Dict.empty []
     in
-    room4
+    eachVertex vertices Dict.empty [] |> Tuple.first
 
 
 linesToAdjacents : Point -> List Point -> Dict Point (Set Point) -> Room -> ( Room, Dict Point (Set Point) )
