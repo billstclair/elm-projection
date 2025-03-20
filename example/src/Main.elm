@@ -91,6 +91,100 @@ cubeBody dims =
     eachVertex vertices Dict.empty [] |> Tuple.first
 
 
+cdr : List a -> List a
+cdr list =
+    case List.tail list of
+        Nothing ->
+            []
+
+        Just tail ->
+            tail
+
+
+joinLines : Room -> Room
+joinLines room =
+    let
+        loop : Room -> Room -> Room
+        loop shapes res =
+            let
+                ( a, b ) =
+                    Debug.log "loop" ( shapes, res )
+            in
+            case shapes of
+                [] ->
+                    List.reverse res
+
+                [ shape ] ->
+                    List.reverse <| shape :: res
+
+                shape :: rest ->
+                    let
+                        ( head, tail ) =
+                            listHeadAndTail shape
+
+                        inner : Room -> List Shape -> Room
+                        inner innerShapes innerRes =
+                            case innerShapes of
+                                [] ->
+                                    loop rest <| shape :: res
+
+                                innerShape :: innerRest ->
+                                    let
+                                        ( inh, int ) =
+                                            listHeadAndTail innerShape
+                                    in
+                                    -- Assuming two-lists at least
+                                    if inh == head then
+                                        let
+                                            join =
+                                                (List.reverse <| cdr shape) ++ innerShape
+                                        in
+                                        joinLines <| join :: innerRest ++ innerRes ++ res
+
+                                    else if inh == tail then
+                                        let
+                                            join =
+                                                innerShape ++ cdr shape
+                                        in
+                                        joinLines <| join :: innerRest ++ innerRes ++ res
+
+                                    else if int == head then
+                                        let
+                                            join =
+                                                innerShape ++ cdr shape
+                                        in
+                                        joinLines <| join :: innerRest ++ innerRes ++ res
+
+                                    else if int == tail then
+                                        let
+                                            join =
+                                                shape ++ cdr (List.reverse innerShape)
+                                        in
+                                        joinLines <| join :: innerRest ++ innerRes ++ res
+
+                                    else
+                                        inner innerRest <| innerShape :: innerRes
+                    in
+                    inner shapes []
+    in
+    loop room []
+
+
+listHeadAndTail : List a -> ( Maybe a, Maybe a )
+listHeadAndTail list =
+    case List.head list of
+        Nothing ->
+            ( Nothing, Nothing )
+
+        Just head ->
+            case List.head (List.reverse list) of
+                Nothing ->
+                    ( Just head, Nothing )
+
+                Just tail ->
+                    ( Just head, Just tail )
+
+
 linesToAdjacents : Point -> List Point -> Dict Point (Set Point) -> Room -> ( Room, Dict Point (Set Point) )
 linesToAdjacents vertex adjacents d res =
     case adjacents of
@@ -130,14 +224,6 @@ adjacentPoints p =
             List.take idx p ++ (notidx n :: List.drop (idx + 1) p)
     in
     List.indexedMap indexer p
-
-
-missingPoints : Point -> List Point -> List Point
-missingPoints point points =
-    adjacentPoints point
-        |> Set.fromList
-        |> Set.diff (Set.fromList points)
-        |> Set.toList
 
 
 cube3d : Shape
