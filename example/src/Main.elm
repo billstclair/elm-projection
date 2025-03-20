@@ -144,7 +144,7 @@ joinLines room =
                                     else if inh == tail then
                                         let
                                             join =
-                                                innerShape ++ cdr shape
+                                                shape ++ cdr innerShape
                                         in
                                         joinLines <| join :: innerRest ++ innerRes ++ res
 
