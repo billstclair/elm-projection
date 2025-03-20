@@ -92,6 +92,7 @@ project point eye =
         p =
             point
 
+        -- (L-E)•(P-E) / (L-E)•(L-E)
         lE_PEoverLE_LE =
             pminus l e
                 |> pdot (pminus p e)
