@@ -1,4 +1,7 @@
 #!/bin/bash
 
+cd ..
+bin/build
+cd example
 elm make src/Main.elm --output site/index.html
 bin/safari-patch

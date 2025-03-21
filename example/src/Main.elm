@@ -34,7 +34,9 @@ type alias Cube =
 
 makeCube : Int -> Number -> Point -> Room
 makeCube dimension size center =
-    Util.timesRoom (size / 2) <| (cubeBody dimension |> joinLines)
+    (cubeBody dimension |> joinLines)
+        |> Util.timesRoom size
+        |> Util.addPointToRoom (Util.pplus (List.repeat dimension -0.5) center)
 
 
 cubeNd : Int -> Shape -> Shape
