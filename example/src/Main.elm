@@ -32,11 +32,9 @@ type alias Cube =
     }
 
 
-makeCube : Int -> Number -> Point -> Cube
+makeCube : Int -> Number -> Point -> Room
 makeCube dimension size center =
-    { center = center
-    , body = Util.timesRoom (size / 2) <| cubeBody dimension
-    }
+    Util.timesRoom (size / 2) <| (cubeBody dimension |> joinLines)
 
 
 cubeNd : Int -> Shape -> Shape
@@ -106,10 +104,6 @@ joinLines room =
     let
         loop : Room -> Room -> Room
         loop shapes res =
-            let
-                ( a, b ) =
-                    Debug.log "loop" ( shapes, res )
-            in
             case shapes of
                 [] ->
                     List.reverse res
@@ -119,8 +113,8 @@ joinLines room =
 
                 shape :: rest ->
                     let
-                        ( head, tail ) =
-                            listHeadAndTail shape
+                        ( first, last ) =
+                            listFirstAndLast shape
 
                         inner : Room -> List Shape -> Room
                         inner innerShapes innerRes =
@@ -130,32 +124,31 @@ joinLines room =
 
                                 innerShape :: innerRest ->
                                     let
-                                        ( inh, int ) =
-                                            listHeadAndTail innerShape
+                                        ( innerFirst, innerLast ) =
+                                            listFirstAndLast innerShape
                                     in
-                                    -- Assuming two-lists at least
-                                    if inh == head then
+                                    if first == innerFirst then
                                         let
                                             join =
                                                 (List.reverse <| cdr shape) ++ innerShape
                                         in
                                         joinLines <| join :: innerRest ++ innerRes ++ res
 
-                                    else if inh == tail then
+                                    else if last == innerFirst then
+                                        let
+                                            join =
+                                                shape ++ cdr innerShape
+                                        in
+                                        joinLines <| join :: innerRest ++ innerRes ++ res
+
+                                    else if innerLast == first then
                                         let
                                             join =
                                                 innerShape ++ cdr shape
                                         in
                                         joinLines <| join :: innerRest ++ innerRes ++ res
 
-                                    else if int == head then
-                                        let
-                                            join =
-                                                innerShape ++ cdr shape
-                                        in
-                                        joinLines <| join :: innerRest ++ innerRes ++ res
-
-                                    else if int == tail then
+                                    else if last == innerLast then
                                         let
                                             join =
                                                 shape ++ cdr (List.reverse innerShape)
@@ -165,24 +158,24 @@ joinLines room =
                                     else
                                         inner innerRest <| innerShape :: innerRes
                     in
-                    inner shapes []
+                    inner (cdr shapes) []
     in
     loop room []
 
 
-listHeadAndTail : List a -> ( Maybe a, Maybe a )
-listHeadAndTail list =
+listFirstAndLast : List a -> ( Maybe a, Maybe a )
+listFirstAndLast list =
     case List.head list of
         Nothing ->
             ( Nothing, Nothing )
 
-        Just head ->
+        jh ->
             case List.head (List.reverse list) of
                 Nothing ->
-                    ( Just head, Nothing )
+                    ( jh, Nothing )
 
-                Just tail ->
-                    ( Just head, Just tail )
+                jt ->
+                    ( jh, jt )
 
 
 linesToAdjacents : Point -> List Point -> Dict Point (Set Point) -> Room -> ( Room, Dict Point (Set Point) )
