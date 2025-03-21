@@ -14,6 +14,7 @@ module Projection.Types exposing
     ( Number, Point, Vector, Matrix
     , Shape, Room
     , Eye, Seer
+    , Object, Script, Tick, Function
     )
 
 {-| Types for Projection.elm
@@ -34,6 +35,11 @@ given the eye looking at it.
 # Seeing
 
 @docs Eye, Seer
+
+
+# Activity
+
+@docs Object, Script, Tick, Function
 
 -}
 
@@ -97,5 +103,35 @@ type alias Eye =
 -}
 type alias Seer =
     { body : Room
-    , eye : Eye
+    , eyes : List Eye
     }
+
+
+{-| A moving `Seer`.
+-}
+type alias Object =
+    { seer : Seer
+    , script : Script
+    }
+
+
+{-| 1/10 second
+-}
+type alias Tick =
+    Number
+
+
+{-| A script that maps time to transformation.
+-}
+type alias Script =
+    { name : String
+    , function : Function
+    }
+
+
+{-| Different kinds of `Script` functions.
+-}
+type Function
+    = Function (Tick -> Matrix)
+    | UI --TODO
+    | Interpreted String --interpreted Lisp?

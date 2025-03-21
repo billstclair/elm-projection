@@ -151,6 +151,6 @@ projectPointAndEye point eye =
 
 {-| Same as `project`, but takes a `Seer` as the second arg.
 -}
-projectSeer : Point -> Seer -> Point
+projectSeer : Point -> Seer -> List Point
 projectSeer point seer =
-    project point seer.eye
+    List.map (project point) seer.eyes

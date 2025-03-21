@@ -19,7 +19,7 @@ module Projection.Util exposing
     , pplus, pminus, ptimes, pdivide, pdot, papply, papply1
     , removeDimension, removeEyeDimension
     , transformPoint, rotationMatrix
-    , timesRoom, timesShape, timesPoint
+    , timesRoom, timesShape, timesPoint, allTrue
     )
 
 {-| Utilities for `Project.Types`
@@ -67,7 +67,7 @@ Imagine a package for non-metric spaces.
 
 # Other stuff
 
-@docs timesRoom, timesShape, timesPoint
+@docs timesRoom, timesShape, timesPoint, allTrue
 
 -}
 
@@ -218,8 +218,20 @@ and have the same number of dimension.
 isSeerValid : Seer -> Bool
 isSeerValid seer =
     isRoomValid seer.body
-        && isEyeValid seer.eye
-        && (roomDimension seer.body == eyeDimension seer.eye)
+        && (allTrue <| List.map isEyeValid seer.eyes)
+        && (let
+                dim =
+                    roomDimension seer.body
+            in
+            allTrue <| List.map (\eye -> dim == eyeDimension eye) seer.eyes
+           )
+
+
+{-| True if the list is all `True`.
+-}
+allTrue : List Bool -> Bool
+allTrue bools =
+    not <| List.member False bools
 
 
 {-| I don't think Elm has apply, and I discovered why when I wrote it.

@@ -141,7 +141,7 @@ encodeSeer : Seer -> Value
 encodeSeer seer =
     JE.object
         [ ( "body", encodeRoom seer.body )
-        , ( "eye", encodeEye seer.eye )
+        , ( "eyes", JE.list encodeEye seer.eyes )
         ]
 
 
@@ -151,4 +151,4 @@ seerDecoder : Decoder Seer
 seerDecoder =
     JD.succeed Seer
         |> required "body" roomDecoder
-        |> required "eye" eyeDecoder
+        |> required "eyes" (JD.list eyeDecoder)
