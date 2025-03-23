@@ -15,14 +15,21 @@
 module Projection exposing
     ( project, projectEye, projectPointAndEye, projectSeer
     , projectTo2D, projectShapeTo2D
+    , rotatePoint, rotateShape, rotateRoom
     )
 
 {-| Do geometric projection.
 
-Types are defined in `Projection.Types`.
+
+# Types are defined in `Projection.Types`.
 
 @docs project, projectEye, projectPointAndEye, projectSeer
 @docs projectTo2D, projectShapeTo2D
+
+
+# Rotation about a line.
+
+@docs rotatePoint, rotateShape, rotateRoom
 
 -}
 
@@ -155,3 +162,35 @@ projectPointAndEye point eye =
 projectSeer : Point -> Seer -> List Point
 projectSeer point seer =
     List.map (project point) seer.eyes
+
+
+{-| Rotate the second point by the number of radians around the line
+defined by the origin and the first point. Positive angles drive
+that line into the origin, were it a screw.
+
+For derivation, see grok-rotate-nd-scene.html.
+I did a stupid conversion of the Python code there.
+
+-}
+rotatePoint : Float -> Point -> Point -> Point
+rotatePoint angle axis point =
+    -- TODO
+    point
+
+
+{-| Rotate the shape by the number of radians around the line
+defined by the origin and the first point.
+-}
+rotateShape : Float -> Point -> Shape -> Shape
+rotateShape angle axis shape =
+    -- TODO
+    shape
+
+
+{-| Rotate the room by the number of radians around the line
+defined by the origin and the first point.
+-}
+rotateRoom : Float -> Point -> Room -> Room
+rotateRoom angle axis room =
+    -- TODO
+    room
