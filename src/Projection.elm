@@ -171,6 +171,63 @@ that line into the origin, were it a screw.
 For derivation, see grok-rotate-nd-scene.html.
 I did a stupid conversion of the Python code there.
 
+Here's the Python that Grok wrote:
+
+    import math
+
+    def rotate_point_nD(p, a, theta):
+        # Inputs: p (list of n coords), a (list of n coords), theta (radians, clockwise)
+        n = len(p)
+
+        # Axis magnitude and normalization
+        a_mag = math.sqrt(sum(ai * ai for ai in a))
+        a_hat = [ai / a_mag for ai in a]
+
+        # Dot product p · â
+        p_dot_a_hat = sum(pi * ahi for pi, ahi in zip(p, a_hat))
+
+        # Parallel component
+        p_parallel = [p_dot_a_hat * ahi for ahi in a_hat]
+
+        # Perpendicular component
+        p_perp = [pi - ppi for pi, ppi in zip(p, p_parallel)]
+        p_perp_mag = math.sqrt(sum(ppi * ppi for ppi in p_perp))
+
+        # If p_perp is zero, no rotation needed
+        if p_perp_mag == 0:
+            return p
+
+        # Normalize p_perp
+        p_perp_hat = [ppi / p_perp_mag for ppi in p_perp]
+
+        # Construct q (perpendicular to a_hat and p_perp)
+        u = [1 - a_hat[0]**2] + [-a_hat[0] * a_hat[i] for i in range(1, n)]
+        u_dot_p_perp = sum(ui * ppi for ui, ppi in zip(u, p_perp_hat))
+        q = [ui - u_dot_p_perp * ppi for ui, ppi in zip(u, p_perp_hat)]
+
+        # Normalize q
+        q_mag = math.sqrt(sum(qi * qi for qi in q))
+        if q_mag == 0:  # Edge case: pick another e_i if q is zero
+            return p_parallel  # Simplest fallback
+        q_hat = [qi / q_mag for qi in q]
+
+        # Rotated point
+        cos_theta = math.cos(theta)
+        sin_theta = math.sin(theta)
+        p_prime = [
+            p_parallel[i] + cos_theta * p_perp[i] - sin_theta * p_perp_mag * q_hat[i]
+            for i in range(n)
+        ]
+
+        return p_prime
+
+    # Test
+    p = [1, 0, 0]  # 3D example
+    a = [0, 0, 1]  # Rotate around z-axis
+    theta = math.pi / 2  # 90° clockwise
+    p_rotated = rotate_point_nD(p, a, theta)
+    print([round(x, 6) for x in p_rotated])  # Should be [0, -1, 0]
+
 -}
 rotatePoint : Float -> Point -> Point -> Point
 rotatePoint angle axis point =

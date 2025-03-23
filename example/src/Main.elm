@@ -26,12 +26,6 @@ e =
     1 / 2
 
 
-type alias Cube =
-    { center : Point
-    , body : Room
-    }
-
-
 makeCube : Int -> Number -> Point -> Room
 makeCube dimension size center =
     (cubeBody dimension |> joinLines)
