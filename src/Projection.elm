@@ -232,7 +232,50 @@ Here's the Python that Grok wrote:
 rotatePoint : Float -> Point -> Point -> Point
 rotatePoint angle axis point =
     -- TODO
-    point
+    let
+        aMag =
+            sqrt <| Util.pdot axis axis
+
+        aHat =
+            Util.timesPoint (1 / aMag) axis
+
+        pDotAHat =
+            Util.pdot aHat point
+
+        pParallel =
+            Util.timesPoint pDotAHat aHat
+
+        pPerp =
+            Util.pminus axis pParallel
+
+        pPerpMag =
+            sqrt <| Util.pdot pPerp pPerp
+    in
+    if pPerpMag == 0 then
+        point
+
+    else
+        let
+            pPerpHat =
+                Util.timesPoint (1 / pPerpMag) pPerp
+
+            --u_dot_p_perp = sum(ui * ppi for ui, ppi in zip(u, p_perp_hat))
+            --q = [ui - u_dot_p_perp * ppi for ui, ppi in zip(u, p_perp_hat)]
+            --# Normalize q
+            --q_mag = math.sqrt(sum(qi * qi for qi in q))
+            --if q_mag == 0:  # Edge case: pick another e_i if q is zero
+            --  return p_parallel  # Simplest fallback
+            --q_hat = [qi / q_mag for qi in q]
+            --# Rotated point
+            --cos_theta = math.cos(theta)
+            --sin_theta = math.sin(theta)
+            --p_prime = [
+            --  p_parallel[i] + cos_theta * p_perp[i] - sin_theta * p_perp_mag * q_hat[i]
+            --  for i in range(n)
+            --]
+            --return p_prime
+        in
+        point
 
 
 {-| Rotate the shape by the number of radians around the line
