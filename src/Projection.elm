@@ -259,7 +259,9 @@ rotatePoint angle axis point =
             pPerpHat =
                 Util.timesPoint (1 / pPerpMag) pPerp
 
+            --u = [1 - a_hat[0]**2] + [-a_hat[0] * a_hat[i] for i in range(1, n)]
             --u_dot_p_perp = sum(ui * ppi for ui, ppi in zip(u, p_perp_hat))
+            uDotPPerp = 
             --q = [ui - u_dot_p_perp * ppi for ui, ppi in zip(u, p_perp_hat)]
             --# Normalize q
             --q_mag = math.sqrt(sum(qi * qi for qi in q))
